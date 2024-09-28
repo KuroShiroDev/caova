@@ -1,0 +1,78 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+enum Role {
+    admin
+    user
+}
+
+model User {
+    userId                String   @id
+    name                  String
+    email                 String   @unique
+    isVerified            Boolean  @default(false)
+    identificationImgLink String?
+    isActive              Boolean  @default(true)
+    createdAt             DateTime @default(now())
+    updatedAt             DateTime @updatedAt
+    role                  Role     @default(user)
+    cashAmount            BigInt?
+
+    // RELATIONS
+
+    Investment Investement[]
+}
+
+model Project {
+    projectId                    String   @id
+    title                        String   @unique
+    address                      String
+    description                  String?
+    projectValueTotal            BigInt?
+    projectValueActual           BigInt?
+    media                        String[]
+    documents                    String[]
+    createdAt                    DateTime @default(now())
+    updatedAt                    DateTime @updatedAt
+    monthly_dividends_per_action BigInt?
+    start_income_date            DateTime?
+    end_income_date              DateTime?
+
+    // RELATIONS
+
+    Investment Investement[]
+}
+
+model Transaction {
+    transactionId String   @id
+    amount        BigInt
+    createdAt     DateTime @default(now())
+
+    // RELATIONS
+
+    investment   Investement @relation(fields: [investmentId], references: [investmentId])
+    investmentId String
+}
+
+model Investement {
+    investmentId       String   @id
+    amount             BigInt
+    transaction_status String //TODO: create enum once the transaction status are defined
+    createdAt          DateTime @default(now())
+
+    // RELATIONS
+
+    Transaction Transaction[]
+
+    user   User   @relation(fields: [userId], references: [userId])
+    userId String
+
+    project   Project @relation(fields: [projectId], references: [projectId])
+    projectId String
+}

@@ -8,11 +8,11 @@ export default function Home() {
       <div className=" min-h-screen flex flex-col md:flex-row items-start justify-between  ">
         <div className="w-full md:w-1/2 mb-8 md:mb-0 text-center md:text-left mt-40">
           <h1 className="text-6xl font-bold mb-4">
-            Enterprise Standard for Private Gen AI
+            Enterprise Standard for Private Gen AI and Document Processing
           </h1>
           <p className="mb-4 text-secondary-foreground/70">
-            The TitanML Enterprise Inference Stack makes building, deploying and
-            scaling private and secure Enterprise RAG and Document Processing
+            The TitanML Enterprise Inference Stack makes building, deploying ands
+            scaling private and secure Enterprise
             applications, effortless.{" "}
           </p>
           <Button
