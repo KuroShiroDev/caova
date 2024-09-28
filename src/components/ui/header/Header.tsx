@@ -6,6 +6,7 @@ import Image from "next/image";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { navigationLinks } from "@/config/navigationLinks";
 import Link from "next/link";
+import { AuthClerkButton } from "../clerk/AuthClerkButton";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,10 +17,10 @@ export const Header = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full bg-primary/90 bg-opacity-90 backdrop-blur-md flex justify-between items-center px-6 md:px-10 py-4 text-primary-foreground shadow-lg z-50">
+      <header className=" h-[120px] top-0 left-0 w-full bg-primary/90 bg-opacity-90 backdrop-blur-md flex justify-between items-center px-6 md:px-10 py-4 text-primary-foreground shadow-lg z-50">
         <div className="flex justify-between items-center w-full md:w-auto">
           <Link href="/">
-            <Image src="/logo-white.png" alt="Logo" width={100} height={100} />
+            <Image src="/logo-white.png" alt="Logo" width={150} height={150} />
           </Link>
           <Button
             onClick={toggleMenu}
@@ -28,19 +29,14 @@ export const Header = () => {
             <HiOutlineMenuAlt3 size={24} />
           </Button>
         </div>
-        <nav className="hidden md:flex space-x-8 font-bold text-lg">
+        <nav className="hidden md:flex space-x-8 font-bold text-xl">
           {navigationLinks.map((link) => (
             <Link href={link.href} key={link.href}>
               {link.name}
             </Link>
           ))}
         </nav>
-        <Button
-          className="hidden md:block text-secondary-foreground text-lg border-none"
-          variant="outline"
-        >
-          Login
-        </Button>
+        <AuthClerkButton />
       </header>
       {isMenuOpen && (
         <div
@@ -59,13 +55,7 @@ export const Header = () => {
               {link.name}
             </Link>
           ))}
-          <Button
-            className="text-secondary-foreground text-lg border-none"
-            variant="outline"
-            onClick={toggleMenu}
-          >
-            Login
-          </Button>
+          <AuthClerkButton />
         </div>
       </div>
     </>
