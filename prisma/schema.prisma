@@ -12,6 +12,7 @@ enum Role {
     user
 }
 
+
 model User {
     userId                String   @id
     name                  String
@@ -23,6 +24,9 @@ model User {
     updatedAt             DateTime @updatedAt
     role                  Role     @default(user)
     cashAmount            BigInt?
+    phoneNumber           String?
+    idNumber              String?
+    idType                String @default("cedula")
 
     // RELATIONS
 
