@@ -22,7 +22,6 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${geistAlmarai.variable}  antialiased`}>
           <Header />
-
           {children}
           <Footer />
         </body>
