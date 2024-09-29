@@ -17,7 +17,7 @@ export const Header = () => {
 
   return (
     <>
-      <header className=" h-[120px] top-0 left-0 w-full bg-primary/90 bg-opacity-90 backdrop-blur-md flex justify-between items-center px-6 md:px-10 py-4 text-primary-foreground shadow-lg z-50">
+      <header className=" fixed h-[100px] top-0 left-0 w-full bg-primary/90 bg-opacity-90 backdrop-blur-md flex justify-between items-center px-6 md:px-10 py-4 text-primary-foreground shadow-lg z-50">
         <div className="flex justify-between items-center w-full md:w-auto">
           <Link href="/">
             <Image src="/logo-white.png" alt="Logo" width={150} height={150} />
