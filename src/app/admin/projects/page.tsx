@@ -1,8 +1,17 @@
+import CustomPagination from "@/components/CustomPagination";
+import UserFilters from "../users/(components)/UserFilters";
+import UsersTable from "../users/(components)/UsersTable";
+import ProjectsTable from "./(components)/ProjectsTable";
+import ProjectFilters from "./(components)/ProjectFilters";
 
 export default function AdminProjectsPage() {
   return (
     <div>
-      <h1>Hello Page</h1>
+      <div className="flex flex-col gap-8">
+        <ProjectFilters />
+        <ProjectsTable />
+        <CustomPagination />
+      </div>
     </div>
   );
 }
