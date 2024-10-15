@@ -1,6 +1,4 @@
 import CustomPagination from "@/components/CustomPagination";
-import UserFilters from "../users/(components)/UserFilters";
-import UsersTable from "../users/(components)/UsersTable";
 import ProjectsTable from "./(components)/ProjectsTable";
 import ProjectFilters from "./(components)/ProjectFilters";
 
