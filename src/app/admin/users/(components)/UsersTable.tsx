@@ -17,7 +17,7 @@ const UsersTable = () => {
                         <TableHead>Correo</TableHead>
                         <TableHead>Rol</TableHead>
                         <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Cavoa Creditos</TableHead>
+                        <TableHead className="text-right">Caova Creditos</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
