@@ -11,6 +11,7 @@ import CustomTextInput from '@/components/customForm/CustomTextInput';
 import CustomTextArea from '@/components/customForm/CustomTextArea';
 import CustomSelect from '@/components/customForm/CustomSelect';
 import { propertyTypeOptions } from '@/app/data';
+import { createProject } from '@/actions/projects';
 
 const projectSchema = z.object({
     title: z.string().min(1, { message: '* Requerido' }),
@@ -25,10 +26,10 @@ const projectSchema = z.object({
     minInvestmentAmount: z.coerce.number().min(1, { message: '* Requerido' }),
     propertyType: z.enum(['viviendaDeInteresSocial', 'viviendaDeInteresPrioritario'], { message: '* Requerido' }),
     squareMeters: z.coerce.number().min(1, { message: '* Requerido' }),
-    rooms: z.coerce.number().min(1, { message: '* Requerido' }),
+    bedrooms: z.coerce.number().min(1, { message: '* Requerido' }),
     bathrooms: z.coerce.number().min(1, { message: '* Requerido' }),
     rentalYieldsAnnualCash: z.coerce.number(),
-    imcomeFromValuationAnnualCash: z.coerce.number(),
+    incomeFromValuationAnnualCash: z.coerce.number(),
     builder: z.string().min(1, { message: '* Requerido' }),
     commonAreas: z.string().min(1, { message: '* Requerido' }),
     projectLinks: z.string(),
@@ -52,44 +53,44 @@ const CreateProjectForm = (
     const form = useForm<z.infer<typeof projectSchema>>({
         resolver: zodResolver(projectSchema),
         defaultValues: {
-            title: '',
-            description: '',
-            address: '',
-            projectValueTotal: 0,
+            title: 'New Project',
+            description: 'Description',
+            address: 'Calle 34 #50 -35',
+            projectValueTotal: 1000000,
             startIncomeDate: new Date(),
             endIncomeDate: new Date(),
             country: 'Colombia',
             department: 'Antioquia',
             city: 'Medellín',
-            minInvestmentAmount: 0,
+            minInvestmentAmount: 100000,
             propertyType: 'viviendaDeInteresSocial',
-            squareMeters: 0,
-            rooms: 0,
-            bathrooms: 0,
-            rentalYieldsAnnualCash: 0,
-            imcomeFromValuationAnnualCash: 0,
-            builder: '',
-            commonAreas: '',
+            squareMeters: 50,
+            bedrooms: 2,
+            bathrooms: 2,
+            rentalYieldsAnnualCash: 100000,
+            incomeFromValuationAnnualCash: 100000,
+            builder: 'Contructora',
+            commonAreas: 'piscina, turco',
             projectLinks: '',
-            totalPropertyCost: 0,
-            finishingCost: 0,
-            basicEquipmentAndTestingCost: 0,
-            legalCost: 0,
-            cetificatesSNandRCost: 0,
-            studyTitleCost: 0,
-            companiesIncorporationCost: 0,
-            accountServicesCost: 0,
-            propertyAppraisal: 0,
-            transactionCost: 0,
-            searchAndAdvertisingFee: 0,
-            contigenciesFee: 0
-        }
-    })
+            totalPropertyCost: 500000,
+            finishingCost: 200000,
+            basicEquipmentAndTestingCost: 100000,
+            legalCost: 100000,
+            cetificatesSNandRCost: 50000,
+            studyTitleCost: 50000,
+            companiesIncorporationCost: 50000,
+            accountServicesCost: 50000,
+            propertyAppraisal: 50000,
+            transactionCost: 50000,
+            searchAndAdvertisingFee: 50000,
+            contigenciesFee: 50000
+        }    })
 
-    function onSubmit(values: z.infer<typeof projectSchema>) {
-        console.log('data')
-        const transaformedValues = { commonAreas: values.commonAreas.split(', ') }
+    async function onSubmit(values: z.infer<typeof projectSchema>) {
+        const transaformedValues = { ...values, commonAreas: values.commonAreas.split(', ') }
+        const project = await createProject(transaformedValues)
     }
+
     return (
         <div className="flex flex-col gap-2 items-center my-14 md:my-24 w-full">
             <Form {...form}>
@@ -115,10 +116,10 @@ const CreateProjectForm = (
                     <CustomTextInput form={form} label='Monto minimo invertido *' name="minInvestmentAmount" type='number' />
                     <CustomSelect form={form} label='Tipo de propiedad' name="propertyType" options={propertyTypeOptions} />
                     <CustomTextInput form={form} label='Metros cuadrados*' name="squareMeters" type='number' />
-                    <CustomTextInput form={form} label='Habitaciones *' name="rooms" type='number' />
+                    <CustomTextInput form={form} label='Habitaciones *' name="bedrooms" type='number' />
                     <CustomTextInput form={form} label='Baños *' name="bathrooms" type='number' />
                     <CustomTextInput form={form} label='Rentabilidad de la renta anual*' name="rentalYieldsAnnualCash" type='number' />
-                    <CustomTextInput form={form} label='Ingresos de la valuación anual *' name="imcomeFromValuationAnnualCash" type='number' />
+                    <CustomTextInput form={form} label='Ingresos de la valuación anual *' name="incomeFromValuationAnnualCash" type='number' />
                     <CustomTextInput form={form} label='Constructor *' name="builder" />
                     <CustomTextInput form={form} label='Areas comunes *' name="commonAreas" />
                     <CustomTextInput form={form} label='Enlaces de proyecto' name="projectLinks" />
