@@ -7,7 +7,7 @@ import { geistAlmarai, geistPoppins } from '@/config/fonts';
 import { Footer } from '@/components/ui/footer/Footer';
 
 export const metadata: Metadata = {
-  title: 'Cavoa',
+  title: 'Caova',
   description: 'Inviersiones en proeyctos inmobiliarios a tu alcance',
 };
 
