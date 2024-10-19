@@ -12,9 +12,7 @@ export const createProject = async (values: CreateProject) : Promise<Project> =>
     }
 
     const project = await prisma.project.create({
-        data: {
-            ...values,
-        },
+        data:  values,
     });
 
     return project;
