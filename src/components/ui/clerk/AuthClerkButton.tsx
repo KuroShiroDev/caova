@@ -1,8 +1,27 @@
-import { ClerkLoaded, ClerkLoading, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+'use client';
+
+import {
+  ClerkLoaded,
+  ClerkLoading,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  useUser,
+} from '@clerk/nextjs';
 import { Button } from '../button';
 import { Loader } from 'lucide-react';
+import { useEffect } from 'react';
+import { handleUserLogin } from '@/actions/auth';
 
 export const AuthClerkButton = () => {
+  const { isLoaded, isSignedIn, user } = useUser();
+
+  useEffect(() => {
+    if (isLoaded && isSignedIn && user) {
+      handleUserLogin();
+    }
+  }, [isLoaded, isSignedIn, user]);
   return (
     <>
       <ClerkLoading>
