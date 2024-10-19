@@ -4,12 +4,17 @@ import React, { useState } from 'react';
 import { Button } from '../button';
 import Image from 'next/image';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
-import { navigationLinks } from '@/config/navigationLinks';
+import { navigationLinks, adminNavigationLinks } from '@/config/navigationLinks';
 import Link from 'next/link';
 import { AuthClerkButton } from '../clerk/AuthClerkButton';
 
-export const Header = () => {
+interface HeaderProps {
+  isAdmin?: boolean;
+}
+
+export const Header = ({ isAdmin = false }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navLinks = isAdmin ? adminNavigationLinks : navigationLinks;
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -27,7 +32,7 @@ export const Header = () => {
           </Button>
         </div>
         <nav className="hidden md:flex space-x-8 font-bold text-xl">
-          {navigationLinks.map((link) => (
+          {navLinks.map((link) => (
             <Link href={link.href} key={link.href}>
               {link.name}
             </Link>
