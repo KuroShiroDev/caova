@@ -1,5 +1,4 @@
 'use server';
-import { auth, currentUser } from '@clerk/nextjs/server';
 import { PrismaClient, Project } from '@prisma/client';
 import { verifyAdmin } from './auth';
 import { CreateProject } from '@/interfaces/project.interface';

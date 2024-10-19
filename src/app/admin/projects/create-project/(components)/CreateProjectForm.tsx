@@ -88,7 +88,7 @@ const CreateProjectForm = (
 
     async function onSubmit(values: z.infer<typeof projectSchema>) {
         const transaformedValues = { ...values, commonAreas: values.commonAreas.split(', ') }
-        const project = await createProject(transaformedValues)
+        await createProject(transaformedValues)
     }
 
     return (
