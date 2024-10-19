@@ -1,9 +1,9 @@
-import Image from "next/image";
-import React from "react";
-import { FaInstagram } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import Image from 'next/image';
+import React from 'react';
+import { FaInstagram } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 
-import { RiFacebookFill } from "react-icons/ri";
+import { RiFacebookFill } from 'react-icons/ri';
 
 export const Footer = () => {
   return (
@@ -12,10 +12,7 @@ export const Footer = () => {
       <div className="flex flex-col md:flex-row justify-between gap-24">
         {/* LEFT */}
         <div className="w-full md:w-1/2 lg:w-1/4 flex flex-col gap-8">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-            tincidunt, nunc nec maximus.
-          </p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt, nunc nec maximus.</p>
           <span>hello@caova.dev</span>
           <span>+57 421 122 123</span>
           <div className="flex gap-6">

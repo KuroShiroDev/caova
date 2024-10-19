@@ -1,13 +1,6 @@
-import {
-  ClerkLoaded,
-  ClerkLoading,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
-import { Button } from "../button";
-import { Loader } from "lucide-react";
+import { ClerkLoaded, ClerkLoading, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import { Button } from '../button';
+import { Loader } from 'lucide-react';
 
 export const AuthClerkButton = () => {
   return (
@@ -33,9 +26,9 @@ export const AuthClerkButton = () => {
         <SignedOut>
           <SignInButton signUpForceRedirectUrl="/" mode="modal">
             <Button
-              className="hidden md:block text-secondary-foreground text-xl border-none"
-              variant="outline"
-            >
+              size="lg"
+              className="hidden md:block text-secondary-foreground text-lg border-none"
+              variant="outline">
               Login
             </Button>
           </SignInButton>
