@@ -36,3 +36,19 @@ export const handleUserLogin = async () => {
 
   return dbUser;
 };
+
+export const getUser = async () => {
+  const { userId } = auth();
+
+  if (!userId) {
+    throw new Error('No user ID found');
+  }
+
+  console.log('userId', userId);
+
+  return prisma.user.findUnique({
+    where: {
+      userId,
+    },
+  });
+};

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Button } from '../button';
 import Image from 'next/image';
-import { HiOutlineMenuAlt3 } from 'react-icons/hi';
+import { HiOutlineMenuAlt3, HiOutlineX } from 'react-icons/hi';
 import { navigationLinks, adminNavigationLinks } from '@/config/navigationLinks';
 import Link from 'next/link';
 import { AuthClerkButton } from '../clerk/AuthClerkButton';
@@ -38,22 +38,27 @@ export const Header = ({ isAdmin = false }: HeaderProps) => {
             </Link>
           ))}
         </nav>
-        <AuthClerkButton />
+        <div className=" hidden md:block">
+          <AuthClerkButton />
+        </div>
       </header>
       {isMenuOpen && (
-        <div className="fixed md:hidden inset-0 bg-black bg-opacity-50 z-40" onClick={toggleMenu}></div>
+        <div className="fixed md:hidden inset-0 bg-black bg-opacity-50 z-50" onClick={toggleMenu}></div>
       )}
       <div
         className={`fixed top-0 right-0 h-full w-3/4 bg-primary text-primary-foreground shadow-lg z-50 transform ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
         } transition-transform duration-300 ease-in-out md:hidden`}>
         <div className="flex flex-col items-center justify-center h-full space-y-8 font-bold text-lg">
+          <Button onClick={toggleMenu} className="absolute top-4 right-4 text-white focus:outline-none">
+            <HiOutlineX size={24} />
+          </Button>
+          <AuthClerkButton />
           {navigationLinks.map((link) => (
             <Link href={link.href} key={link.href}>
               {link.name}
             </Link>
           ))}
-          <AuthClerkButton />
         </div>
       </div>
     </>

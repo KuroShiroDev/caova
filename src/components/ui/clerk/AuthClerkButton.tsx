@@ -4,15 +4,16 @@ import {
   ClerkLoaded,
   ClerkLoading,
   SignInButton,
+  SignOutButton,
   SignedIn,
   SignedOut,
-  UserButton,
   useUser,
 } from '@clerk/nextjs';
 import { Button } from '../button';
-import { Loader } from 'lucide-react';
+import { Loader, LogOut, User } from 'lucide-react';
 import { useEffect } from 'react';
 import { handleUserLogin } from '@/actions/auth';
+import Link from 'next/link';
 
 export const AuthClerkButton = () => {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -29,24 +30,20 @@ export const AuthClerkButton = () => {
       </ClerkLoading>
       <ClerkLoaded>
         <SignedIn>
-          <div>
-            <UserButton
-              appearance={{
-                elements: {
-                  avatarBox: {
-                    width: 50,
-                    height: 50,
-                  },
-                },
-              }}
-            />
+          <div className="flex gap-6 items-center">
+            <Link href="/profile">
+              <User className="h-8 w-8" />
+            </Link>
+            <SignOutButton>
+              <LogOut className="h-6 w-6 cursor-pointer " />
+            </SignOutButton>
           </div>
         </SignedIn>
         <SignedOut>
           <SignInButton signUpForceRedirectUrl="/" mode="modal">
             <Button
               size="lg"
-              className="hidden md:block text-secondary-foreground text-lg border-none"
+              className=" block text-secondary-foreground text-lg border-none"
               variant="outline">
               Login
             </Button>
