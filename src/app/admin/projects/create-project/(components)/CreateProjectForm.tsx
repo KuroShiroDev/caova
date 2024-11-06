@@ -90,6 +90,7 @@ const CreateProjectForm = (
         const transaformedValues = { ...values, commonAreas: values.commonAreas.split(', ') }
         await createProject(transaformedValues)
     }
+    // TODO: Delete this comment
 
     return (
         <div className="flex flex-col gap-2 items-center my-14 md:my-24 w-full">
