@@ -1,6 +1,6 @@
-import CustomPagination from "@/components/CustomPagination";
-import UserFilters from "./(components)/UserFilters";
-import UsersTable from "./(components)/UsersTable";
+import CustomPagination from '@/components/CustomPagination';
+import UserFilters from './(components)/UserFilters';
+import UsersTable from './(components)/UsersTable';
 
 export default function AdminUsersPage() {
   return (

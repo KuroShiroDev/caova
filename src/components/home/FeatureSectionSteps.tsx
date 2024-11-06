@@ -15,15 +15,13 @@ const steps = [
   {
     number: 2,
     title: 'Deposita tus fondos',
-    description:
-      'Ingresa la cantidad deseada a tu cuenta en la plataforma para comprar acciones de 200.000 COP cada una.',
+    description: 'Ingresa la cantidad deseada a tu cuenta en la plataforma para comprar acciones de 200.000 COP cada una.',
     icon: <PiMoneyFill className=" text-primary" size={35} />,
   },
   {
     number: 3,
     title: 'Elige la propiedad',
-    description:
-      'Selecciona la propiedad que mejor se ajuste a tu perfil de inversionista con la información proporcionada.',
+    description: 'Selecciona la propiedad que mejor se ajuste a tu perfil de inversionista con la información proporcionada.',
     icon: <BsBuildingFillAdd className=" text-primary" size={35} />,
   },
   {
