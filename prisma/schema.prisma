@@ -1,111 +1,97 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
-}
-
-enum Role {
-    admin
-    user
-}
-
-enum PropertyType {
-    viviendaDeInteresSocial
-    viviendaDeInteresPrioritario
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-    userId                String   @id
-    name                  String
-    email                 String   @unique
-    isVerified            Boolean  @default(false)
-    identificationImgLink String?
-    isActive              Boolean  @default(true)
-    createdAt             DateTime @default(now())
-    updatedAt             DateTime @updatedAt
-    role                  Role     @default(user)
-    cashAmount            BigInt?
-    phoneNumber           String?
-    idNumber              String?
-    idType                String   @default("cedula")
-
-    // RELATIONS
-
-    Investment Investement[]
+  name                  String
+  email                 String        @unique
+  isVerified            Boolean       @default(false)
+  identificationImgLink String?
+  isActive              Boolean       @default(true)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  role                  Role          @default(user)
+  cashAmount            BigInt?
+  idNumber              String?
+  idType                String        @default("cedula")
+  phoneNumber           String?
+  userId                String        @id
+  Investment            Investement[]
 }
 
 model Project {
-    projectId                     Int          @id @default(autoincrement())
-    title                         String       @unique
-    status                        String       @default("inactivo")
-    address                       String
-    description                   String?
-    projectValueTotal             BigInt?
-    projectValueActual            BigInt?
-    media                         String[]
-    documents                     String[]
-    createdAt                     DateTime     @default(now())
-    updatedAt                     DateTime     @updatedAt
-    startIncomeDate               DateTime?
-    endIncomeDate                 DateTime?
-    city                          String
-    department                    String
-    country                       String
-    minInvestmentAmount           Int
-    propertyType                  PropertyType
-    squareMeters                  Int
-    bathrooms                     Int
-    bedrooms                      Int
-    rentalYieldsAnnualCash        Float?
-    incomeFromValuationAnnualCash Float?
-    builder                       String?
-    commonAreas                   String[]
-    projectLinks                  String?
-    totalPropertyCost             BigInt?
-    finishingCost                 BigInt?
-    basicEquipmentAndTestingCost  BigInt?
-    legalCost                     BigInt?
-    cetificatesSNandRCost         BigInt?
-    studyTitleCost                BigInt?
-    companiesIncorporationCost    BigInt?
-    accountServicesCost           BigInt?
-    propertyAppraisal             BigInt?
-    transactionCost               BigInt?
-    searchAndAdvertisingFee       BigInt?
-    contigenciesFee               BigInt?
-
-    // RELATIONS
-
-    Investment Investement[]
+  title                         String        @unique
+  address                       String
+  description                   String?
+  projectValueTotal             BigInt?
+  projectValueActual            BigInt?
+  media                         String[]
+  documents                     String[]
+  createdAt                     DateTime      @default(now())
+  updatedAt                     DateTime      @updatedAt
+  accountServicesCost           BigInt?
+  basicEquipmentAndTestingCost  BigInt?
+  bathrooms                     Int
+  bedrooms                      Int
+  builder                       String?
+  cetificatesSNandRCost         BigInt?
+  city                          String
+  commonAreas                   String[]
+  companiesIncorporationCost    BigInt?
+  contigenciesFee               BigInt?
+  country                       String
+  department                    String
+  endIncomeDate                 DateTime?
+  finishingCost                 BigInt?
+  incomeFromValuationAnnualCash Float?
+  legalCost                     BigInt?
+  projectLinks                  String?
+  propertyAppraisal             BigInt?
+  propertyType                  PropertyType
+  rentalYieldsAnnualCash        Float?
+  searchAndAdvertisingFee       BigInt?
+  squareMeters                  Int
+  startIncomeDate               DateTime?
+  studyTitleCost                BigInt?
+  totalPropertyCost             BigInt?
+  transactionCost               BigInt?
+  status                        String        @default("inactivo")
+  projectId                     Int           @id @default(autoincrement())
+  minInvestmentAmount           Int
+  Investment                    Investement[]
 }
 
 model Transaction {
-    transactionId Int      @id @default(autoincrement())
-    amount        BigInt
-    createdAt     DateTime @default(now())
-
-    // RELATIONS
-
-    investment   Investement @relation(fields: [investmentId], references: [investmentId])
-    investmentId Int
+  amount        BigInt
+  createdAt     DateTime    @default(now())
+  transactionId Int         @id @default(autoincrement())
+  investmentId  Int
+  investment    Investement @relation(fields: [investmentId], references: [investmentId])
 }
 
 model Investement {
-    investmentId       Int      @id @default(autoincrement())
-    amount             BigInt
-    transaction_status String //TODO: create enum once the transaction status are defined
-    createdAt          DateTime @default(now())
+  amount             BigInt
+  transaction_status String
+  createdAt          DateTime      @default(now())
+  investmentId       Int           @id @default(autoincrement())
+  userId             String
+  projectId          Int
+  project            Project       @relation(fields: [projectId], references: [projectId])
+  user               User          @relation(fields: [userId], references: [userId])
+  Transaction        Transaction[]
+}
 
-    // RELATIONS
+enum Role {
+  admin
+  user
+}
 
-    Transaction Transaction[]
-
-    user   User   @relation(fields: [userId], references: [userId])
-    userId String
-
-    project   Project @relation(fields: [projectId], references: [projectId])
-    projectId Int
+enum PropertyType {
+  viviendaDeInteresSocial
+  viviendaDeInteresPrioritario
 }

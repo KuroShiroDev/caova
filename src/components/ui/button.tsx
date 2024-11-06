@@ -11,8 +11,7 @@ const buttonVariants = cva(
       variant: {
         default: 'bg-primary font-poppins font-[500] text-primary-foreground hover:bg-primary/90',
         destructive: 'bg-destructive font-poppins font-[500] text-destructive-foreground hover:bg-destructive/90',
-        outline:
-          'border font-poppins font-[500]  border-input bg-background hover:bg-accent hover:text-accent-foreground',
+        outline: 'border font-poppins font-[500]  border-input bg-background hover:bg-accent hover:text-accent-foreground',
         secondary: 'bg-secondary font-poppins font-[500] text-secondary-foreground hover:bg-secondary/80',
         ghost: ' font-poppins font-[500] hover:bg-accent hover:text-accent-foreground',
         link: 'font-poppins font-[500] text-primary underline-offset-4 hover:underline',
@@ -32,9 +31,7 @@ const buttonVariants = cva(
   }
 );
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 
