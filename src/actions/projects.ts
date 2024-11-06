@@ -5,15 +5,14 @@ import { CreateProject } from '@/interfaces/project.interface';
 
 const prisma = new PrismaClient();
 
-export const createProject = async (values: CreateProject) : Promise<Project> => {
-    const isAdmin = await verifyAdmin();
-     if (!isAdmin) {
-        throw new Error('Unauthorized');
-    }
+export const createProject = async (values: CreateProject): Promise<Project> => {
+  const isAdmin = await verifyAdmin();
+  if (!isAdmin) {
+    throw new Error('Unauthorized');
+  }
 
-    const project = await prisma.project.create({
-        data:  values,
-    });
-
-    return project;
-}
+  const project = await prisma.project.create({
+    data: values,
+  });
+  return project;
+};
