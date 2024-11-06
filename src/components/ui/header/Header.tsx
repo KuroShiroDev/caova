@@ -48,7 +48,8 @@ export const Header = ({ isAdmin = false }: HeaderProps) => {
       <div
         className={`fixed top-0 right-0 h-full w-3/4 bg-primary text-primary-foreground shadow-lg z-50 transform ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        } transition-transform duration-300 ease-in-out md:hidden`}>
+        } transition-transform duration-300 ease-in-out md:hidden`}
+      >
         <div className="flex flex-col items-center justify-center h-full space-y-8 font-bold text-lg">
           <Button onClick={toggleMenu} className="absolute top-4 right-4 text-white focus:outline-none">
             <HiOutlineX size={24} />

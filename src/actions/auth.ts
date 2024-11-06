@@ -52,3 +52,8 @@ export const getUser = async () => {
     },
   });
 };
+
+export const verifyAdmin = async () => {
+  const user = await handleUserLogin();
+  return user.role === 'admin';
+};
