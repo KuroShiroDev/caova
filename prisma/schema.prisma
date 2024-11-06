@@ -12,6 +12,10 @@ enum Role {
     user
 }
 
+enum PropertyType {
+    viviendaDeInteresSocial
+    viviendaDeInteresPrioritario
+}
 
 model User {
     userId                String   @id
@@ -26,7 +30,7 @@ model User {
     cashAmount            BigInt?
     phoneNumber           String?
     idNumber              String?
-    idType                String @default("cedula")
+    idType                String   @default("cedula")
 
     // RELATIONS
 
@@ -34,19 +38,44 @@ model User {
 }
 
 model Project {
-    projectId                    String   @id
-    title                        String   @unique
-    address                      String
-    description                  String?
-    projectValueTotal            BigInt?
-    projectValueActual           BigInt?
-    media                        String[]
-    documents                    String[]
-    createdAt                    DateTime @default(now())
-    updatedAt                    DateTime @updatedAt
-    monthly_dividends_per_action BigInt?
-    start_income_date            DateTime?
-    end_income_date              DateTime?
+    projectId                     Int          @id @default(autoincrement())
+    title                         String       @unique
+    status                        String       @default("inactivo")
+    address                       String
+    description                   String?
+    projectValueTotal             BigInt?
+    projectValueActual            BigInt?
+    media                         String[]
+    documents                     String[]
+    createdAt                     DateTime     @default(now())
+    updatedAt                     DateTime     @updatedAt
+    startIncomeDate               DateTime?
+    endIncomeDate                 DateTime?
+    city                          String
+    department                    String
+    country                       String
+    minInvestmentAmount           Int
+    propertyType                  PropertyType
+    squareMeters                  Int
+    bathrooms                     Int
+    bedrooms                      Int
+    rentalYieldsAnnualCash        Float?
+    incomeFromValuationAnnualCash Float?
+    builder                       String?
+    commonAreas                   String[]
+    projectLinks                  String?
+    totalPropertyCost             BigInt?
+    finishingCost                 BigInt?
+    basicEquipmentAndTestingCost  BigInt?
+    legalCost                     BigInt?
+    cetificatesSNandRCost         BigInt?
+    studyTitleCost                BigInt?
+    companiesIncorporationCost    BigInt?
+    accountServicesCost           BigInt?
+    propertyAppraisal             BigInt?
+    transactionCost               BigInt?
+    searchAndAdvertisingFee       BigInt?
+    contigenciesFee               BigInt?
 
     // RELATIONS
 
@@ -54,18 +83,18 @@ model Project {
 }
 
 model Transaction {
-    transactionId String   @id
+    transactionId Int      @id @default(autoincrement())
     amount        BigInt
     createdAt     DateTime @default(now())
 
     // RELATIONS
 
     investment   Investement @relation(fields: [investmentId], references: [investmentId])
-    investmentId String
+    investmentId Int
 }
 
 model Investement {
-    investmentId       String   @id
+    investmentId       Int      @id @default(autoincrement())
     amount             BigInt
     transaction_status String //TODO: create enum once the transaction status are defined
     createdAt          DateTime @default(now())
@@ -78,5 +107,5 @@ model Investement {
     userId String
 
     project   Project @relation(fields: [projectId], references: [projectId])
-    projectId String
+    projectId Int
 }
