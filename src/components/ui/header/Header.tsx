@@ -9,11 +9,12 @@ import Link from 'next/link';
 import { AuthClerkButton } from '../clerk/AuthClerkButton';
 interface HeaderProps {
   isAdmin?: boolean;
+  isAdminPortal?: boolean;
 }
 
-export const Header = ({ isAdmin = false }: HeaderProps) => {
+export const Header = ({ isAdmin = false, isAdminPortal = false }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navLinks = isAdmin ? adminNavigationLinks : navigationLinks;
+  const navLinks = isAdminPortal ? adminNavigationLinks : navigationLinks;
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);

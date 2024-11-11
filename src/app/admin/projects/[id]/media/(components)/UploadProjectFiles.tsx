@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useParams } from 'next/navigation';
 import { LoaderIcon } from 'lucide-react';
 import { Project } from '@prisma/client';
+import { v4 as uuidv4 } from 'uuid';
 
 type Props = {
   setProject?: Dispatch<SetStateAction<Project | null>>;
@@ -30,8 +31,8 @@ export default function UploadProjectFiles({ setProject }: Props) {
     const urls: string[] = [];
     if (files.length > 0) {
       for (const file of files) {
-        const res = await edgestore.cavoaProjects.upload({ file, options: { manualFileName: `cavoa-${file.name}` } });
-        console.log(res);
+        const fileName = `cavoa-${params.id}-${uuidv4()}`;
+        const res = await edgestore.cavoaProjects.upload({ file, options: { manualFileName: fileName } });
         urls.push(res.url);
       }
     }

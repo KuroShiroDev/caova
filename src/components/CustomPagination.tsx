@@ -17,7 +17,7 @@ const CustomPagination = ({ total, actualPage = 1 }: Props) => {
   const pageSize = 10;
   const pageCount = Math.ceil(total / pageSize);
   const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
-  console.log(pages, actualPage);
+  console.log(actualPage, pages);
   //TODO: Implement Pagination logic here
 
   if (total < 2) return null;

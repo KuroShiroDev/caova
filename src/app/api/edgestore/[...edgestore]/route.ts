@@ -4,7 +4,10 @@ import { createEdgeStoreNextHandler } from '@edgestore/server/adapters/next/app'
 const es = initEdgeStore.create();
 
 const edgestoreRouter = es.router({
-  cavoaProjects: es.imageBucket(),
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  cavoaProjects: es.imageBucket().beforeDelete(({ ctx, fileInfo }) => {
+    return true;
+  }),
 });
 
 const handler = createEdgeStoreNextHandler({

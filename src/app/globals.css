@@ -28,24 +28,33 @@ h3 {
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 210 85% 24%; /* #0c457c */
+    --primary: 210 85% 24%;
+    /* #0c457c */
     --primary-foreground: 0 0% 98%;
-    --secondary: 210 85% 90%; /* Light blue */
+    --secondary: 210 85% 90%;
+    /* Light blue */
     --secondary-foreground: 0 0% 9%;
-    --muted: 210 85% 90%; /* Light blue */
+    --muted: 210 85% 90%;
+    /* Light blue */
     --muted-foreground: 0 0% 45.1%;
-    --accent: 210 85% 90%; /* Light blue */
+    --accent: 210 85% 90%;
+    /* Light blue */
     --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
-    --chart-1: 210 85% 24%; /* #0c457c */
-    --chart-2: 210 70% 35%; /* Medium blue */
-    --chart-3: 210 60% 45%; /* Light blue */
-    --chart-4: 210 50% 55%; /* Lighter blue */
-    --chart-5: 210 40% 65%; /* Very light blue */
+    --chart-1: 210 85% 24%;
+    /* #0c457c */
+    --chart-2: 210 70% 35%;
+    /* Medium blue */
+    --chart-3: 210 60% 45%;
+    /* Light blue */
+    --chart-4: 210 50% 55%;
+    /* Lighter blue */
+    --chart-5: 210 40% 65%;
+    /* Very light blue */
     --radius: 0.5rem;
   }
 }
@@ -54,7 +63,13 @@ h3 {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
+}
+
+.title {
+  @apply text-2xl font-light mb-4 text-slate-700 mt-6 inline-block;
 }

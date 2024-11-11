@@ -23,10 +23,13 @@ const EditProjectMedia = () => {
     fetchProject();
   }, [params.id]);
   return (
-    <div className="grid gap-12 grid-cols-1 md:grid-cols-2 min-h-[400px] items-start">
-      <UploadProjectFiles setProject={setProject} />
-      <ProjectMedia project={project} />
-    </div>
+    <>
+      <h2 className="title">Media | Proyecto ID #{params.id}</h2>
+      <div className="grid gap-12 grid-cols-1 lg:grid-cols-2 min-h-[400px] items-start">
+        <UploadProjectFiles setProject={setProject} />
+        <ProjectMedia project={project} setProject={setProject} />
+      </div>
+    </>
   );
 };
 

@@ -55,3 +55,19 @@ export const addMediaToProject = async (projectId: number, urls: string[]) => {
 
   return updatedProject;
 };
+
+export const removeMediaFromProject = async (projectId: number, urls: string[]): Promise<Project> => {
+  await verifyAdmin();
+  const project = await getOneProjectBasic(projectId);
+
+  const updatedProject = await prisma.project.update({
+    where: {
+      projectId: projectId,
+    },
+    data: {
+      media: project.media.filter((media) => !urls.includes(media)),
+    },
+  });
+
+  return updatedProject;
+};
