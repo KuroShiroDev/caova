@@ -1,8 +1,6 @@
-import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { Project } from '@prisma/client';
 import React from 'react';
-import { MdEdit } from 'react-icons/md';
 import EditProjectPopOver from './EditProjectPopOver';
 
 interface Props {

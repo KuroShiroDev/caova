@@ -10,13 +10,14 @@ import {
 
 interface Props {
   total: number;
-  actaulPage?: number;
+  actualPage?: number;
 }
 
-const CustomPagination = ({ total, actaulPage = 1 }: Props) => {
+const CustomPagination = ({ total, actualPage = 1 }: Props) => {
   const pageSize = 10;
   const pageCount = Math.ceil(total / pageSize);
   const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
+  console.log(pages, actualPage);
   //TODO: Implement Pagination logic here
 
   if (total < 2) return null;

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import ProjectsRow from './ProjectsRow';
-import { getProjects } from '@/actions/projects';
 import { Project } from '@prisma/client';
 
 interface Props {

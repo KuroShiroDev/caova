@@ -25,3 +25,33 @@ export const getProjects = async ({ page = 1, limit = 10 }): Promise<{ projects:
   const total = await prisma.project.count();
   return { projects, total };
 };
+
+export const getOneProjectBasic = async (projectId: number): Promise<Project> => {
+  const project = await prisma.project.findUnique({
+    where: {
+      projectId,
+    },
+  });
+  if (!project) {
+    throw new Error('Project not found');
+  }
+  return project;
+};
+
+// PROJECT MEDIA
+
+export const addMediaToProject = async (projectId: number, urls: string[]) => {
+  await verifyAdmin();
+  const project = await getOneProjectBasic(projectId);
+
+  const updatedProject = await prisma.project.update({
+    where: {
+      projectId: projectId,
+    },
+    data: {
+      media: [...urls, ...project.media],
+    },
+  });
+
+  return updatedProject;
+};

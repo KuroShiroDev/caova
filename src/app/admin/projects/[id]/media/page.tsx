@@ -1,9 +1,5 @@
-import UploadFiles from './(components)/UploadFiles';
+import EditProjectMedia from './(components)/EditProjectMedia';
 
 export default function EditProjectMediaPage() {
-  return (
-    <div>
-      <UploadFiles />
-    </div>
-  );
+  return <EditProjectMedia />;
 }
