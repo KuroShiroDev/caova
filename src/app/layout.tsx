@@ -5,6 +5,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 
 import { geistAlmarai, geistPoppins } from '@/config/fonts';
 import { Footer } from '@/components/ui/footer/Footer';
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
   title: 'Caova',
@@ -21,6 +22,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${geistAlmarai.variable} ${geistPoppins.variable}   antialiased`}>
           {children}
+          <Toaster />
           <Footer />
         </body>
       </html>

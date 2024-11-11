@@ -1,17 +1,34 @@
+import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
+import { Project } from '@prisma/client';
 import React from 'react';
+import { MdEdit } from 'react-icons/md';
+import EditProjectPopOver from './EditProjectPopOver';
 
-const ProjectsRow = () => {
+interface Props {
+  project: Project;
+}
+const ProjectsRow = ({ project }: Props) => {
+  console.log(project);
   return (
     <TableRow>
-      <TableCell className="font-medium">001</TableCell>
-      <TableCell>Cll 32# 40 sur 32b</TableCell>
-      <TableCell>Nuevo Proyecto Envigado</TableCell>
-      <TableCell>3&apos;000.000.000 COP</TableCell>
-      <TableCell>1&apos;500.000.000 COP</TableCell>
-      <TableCell>Recaudación de Fondos</TableCell>
-      <TableCell>N/A</TableCell>
-      <TableCell className="text-right">N/A</TableCell>
+      <TableCell className="font-medium">{project.projectId}</TableCell>
+      <TableCell>{project.address}</TableCell>
+      <TableCell>{project.title}</TableCell>
+      {/* //TODO: Apply currency format */}
+      <TableCell>{project.projectValueTotal?.toString()} COP</TableCell>
+      {/* //TODO: Apply currency format */}
+      <TableCell>{project.projectValueActual ? `${project.projectValueActual?.toString()} COP` : 'Pendiente'}</TableCell>
+      <TableCell>{project.status}</TableCell>
+      <TableCell>{project.startIncomeDate?.toLocaleDateString()} </TableCell>
+      <TableCell>{project.endIncomeDate?.toLocaleDateString()}</TableCell>
+      <TableCell className="text-right">
+        {/* <Button variant="secondary">
+          {' '}
+          <MdEdit />
+        </Button> */}
+        <EditProjectPopOver id={project.projectId} />
+      </TableCell>
     </TableRow>
   );
 };

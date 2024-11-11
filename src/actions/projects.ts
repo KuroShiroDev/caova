@@ -16,3 +16,12 @@ export const createProject = async (values: CreateProject): Promise<Project> => 
   });
   return project;
 };
+
+export const getProjects = async ({ page = 1, limit = 10 }): Promise<{ projects: Project[]; total: number }> => {
+  const projects = await prisma.project.findMany({
+    skip: (page - 1) * limit,
+    take: limit,
+  });
+  const total = await prisma.project.count();
+  return { projects, total };
+};

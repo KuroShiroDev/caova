@@ -10,6 +10,8 @@ import CustomTextArea from '@/components/customForm/CustomTextArea';
 import CustomSelect from '@/components/customForm/CustomSelect';
 import { propertyTypeOptions } from '@/app/data';
 import { createProject } from '@/actions/projects';
+import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 const projectSchema = z.object({
   title: z.string().min(1, {
@@ -70,6 +72,8 @@ const projectSchema = z.object({
 });
 
 const CreateProjectForm = () => {
+  const { toast } = useToast();
+  const router = useRouter();
   const form = useForm<z.infer<typeof projectSchema>>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
@@ -112,17 +116,29 @@ const CreateProjectForm = () => {
       ...values,
       commonAreas: values.commonAreas.split(', '),
     };
-    await createProject(transaformedValues);
+    try {
+      await createProject(transaformedValues);
+      toast({
+        title: 'Proyecto creado!',
+        description: 'El proyecto se ha creado exitosamente',
+      });
+      router.push('/admin/projects');
+    } catch (error) {
+      toast({
+        title: 'Algo succedio!',
+        description: 'No se pudo crear el proyecto',
+        variant: 'destructive',
+      });
+      console.error(error);
+    }
   }
-  // TODO: Delete this comment
 
   return (
     <div className="flex flex-col gap-2 items-center my-14 md:my-24 w-full">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 gap-y-4 w-11/12  md:w-8/12 lg:w-6/12 min-w-[360px]"
-        >
+          className="grid grid-cols-1 gap-y-4 w-11/12  md:w-8/12 lg:w-6/12 min-w-[360px]">
           <CustomTextInput form={form} label="Titulo del proyecto *" name="title" />
           <CustomTextInput form={form} label="Pais" name="country" />
           <CustomTextInput form={form} label="Departamento" name="department" />
@@ -136,8 +152,7 @@ const CreateProjectForm = () => {
               className="absolute inset-0 w-full h-full"
               title="map"
               loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
+              referrerPolicy="no-referrer-when-downgrade"></iframe>
           </div>
 
           <CustomTextInput form={form} label="Valor total del proyecto*" name="projectValueTotal" type="number" />
@@ -176,7 +191,7 @@ const CreateProjectForm = () => {
           <CustomTextInput form={form} label="Costo de busqueda y publicidad" name="searchAndAdvertisingFee" type="number" />
           <CustomTextInput form={form} label="Costo de contigencias" name="contigenciesFee" type="number" />
           <CustomTextArea form={form} label="Description del proyecto *" name="description" />
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Crear</Button>
         </form>
       </Form>
     </div>
