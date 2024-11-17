@@ -22,7 +22,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${geistAlmarai.variable} ${geistPoppins.variable}   antialiased`}>
-          <EdgeStoreProvider>{children}</EdgeStoreProvider>
+          <EdgeStoreProvider basePath="/api/edgestore">{children}</EdgeStoreProvider>
           <Toaster />
           <Footer />
         </body>

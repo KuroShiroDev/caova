@@ -9,7 +9,8 @@ export const handleUserLogin = async () => {
   const { userId } = auth();
 
   if (!userId) {
-    throw new Error('No user ID found');
+    return null;
+    // throw new Error('No user ID found');s
   }
 
   const user = await currentUser();
@@ -39,5 +40,8 @@ export const handleUserLogin = async () => {
 
 export const verifyAdmin = async () => {
   const user = await handleUserLogin();
+  if (user === null) {
+    return false;
+  }
   return user.role === 'admin';
 };
