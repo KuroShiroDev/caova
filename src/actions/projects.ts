@@ -1,11 +1,11 @@
 'use server';
 import { PrismaClient, Project } from '@prisma/client';
 import { verifyAdmin } from './auth';
-import { CreateProject } from '@/interfaces/project.interface';
+import { ProjectFormValues } from '@/interfaces/project.interface';
 
 const prisma = new PrismaClient();
 
-export const createProject = async (values: CreateProject): Promise<Project> => {
+export const createProject = async (values: ProjectFormValues): Promise<Project> => {
   const isAdmin = await verifyAdmin();
   if (!isAdmin) {
     throw new Error('Unauthorized');
@@ -35,6 +35,17 @@ export const getOneProjectBasic = async (projectId: number): Promise<Project> =>
   if (!project) {
     throw new Error('Project not found');
   }
+  return project;
+};
+
+export const updateProject = async (projectId: number, values: ProjectFormValues): Promise<Project> => {
+  await verifyAdmin();
+  const project = await prisma.project.update({
+    where: {
+      projectId,
+    },
+    data: values,
+  });
   return project;
 };
 

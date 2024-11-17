@@ -1,4 +1,4 @@
-export interface CreateProject {
+export interface ProjectFormValues {
   title: string;
   description: string;
   address: string;

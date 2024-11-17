@@ -1,27 +1,12 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { getOneProjectBasic } from '@/actions/projects';
 import { useParams } from 'next/navigation';
-import { Project } from '@prisma/client';
 import UploadProjectFiles from './UploadProjectFiles';
 import ProjectMedia from './ProjectMedia';
+import useGetProject from '@/hooks/project/useGetProject';
 
 const EditProjectMedia = () => {
-  const [project, setProject] = useState<Project | null>(null);
   const params = useParams();
-
-  useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const data = await getOneProjectBasic(Number(params.id));
-        setProject(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchProject();
-  }, [params.id]);
+  const { project, setProject } = useGetProject({ id: Number(params.id) });
   return (
     <>
       <h2 className="title">Media | Proyecto ID #{params.id}</h2>
