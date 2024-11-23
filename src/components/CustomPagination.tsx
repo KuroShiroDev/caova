@@ -12,10 +12,9 @@ import { usePathname, useSearchParams } from 'next/navigation';
 
 interface Props {
   total?: number;
-  onPageChnage?: (page: number) => void;
 }
 
-const CustomPagination = ({ total = 0, onPageChnage }: Props) => {
+const CustomPagination = ({ total = 0 }: Props) => {
   // getthe page actual link to generate the dynamic links and use in the paginationLink components using next
   const currentLink = usePathname();
   const params = useSearchParams();
@@ -33,7 +32,7 @@ const CustomPagination = ({ total = 0, onPageChnage }: Props) => {
 
   const getVisiblePages = () => {
     let start = Math.max(1, actualPage - Math.floor(maxVisbilePages / 2));
-    let end = Math.min(pageCount, start + maxVisbilePages - 1);
+    const end = Math.min(pageCount, start + maxVisbilePages - 1);
 
     if (end - start < maxVisbilePages - 1) {
       start = Math.max(1, end - maxVisbilePages + 1);
