@@ -6,7 +6,7 @@ import { Project } from '@prisma/client';
 interface Props {
   projects: Project[];
 }
-const ProjectsTable = async ({ projects }: Props) => {
+const ProjectsTable = ({ projects }: Props) => {
   return (
     <Table>
       <TableHeader>

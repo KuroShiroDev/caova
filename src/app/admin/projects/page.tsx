@@ -1,17 +1,24 @@
+'use client';
 import CustomPagination from '@/components/CustomPagination';
-import ProjectsTable from './(components)/ProjectsTable';
+import useGetProjects from '@/hooks/project/useGetProjects';
+import PageLoader from '@/components/ui/PageLoader';
 import ProjectFilters from './(components)/ProjectFilters';
-import { getProjects } from '@/actions/projects';
+import ProjectsTable from './(components)/ProjectsTable';
 
-export default async function AdminProjectsPage() {
-  const { projects, total } = await getProjects({});
+const AdminProjectsPage = () => {
+  const { projects, isLoading } = useGetProjects();
+  if (isLoading) {
+    return <PageLoader />;
+  }
   return (
     <div>
       <div className="flex flex-col gap-8">
         <ProjectFilters />
-        <ProjectsTable projects={projects} />
-        <CustomPagination total={total} />
+        <ProjectsTable projects={projects?.projects || []} />
+        <CustomPagination total={projects?.total} />
       </div>
     </div>
   );
-}
+};
+
+export default AdminProjectsPage;
