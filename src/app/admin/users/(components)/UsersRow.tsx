@@ -1,14 +1,19 @@
 import { TableCell, TableRow } from '@/components/ui/table';
+import { User } from '@prisma/client';
 import React from 'react';
 
-const UsersRow = () => {
+interface Props {
+  user: User;
+}
+const UsersRow = ({ user }: Props) => {
+  const userCashAmount = user.cashAmount ? user.cashAmount?.toLocaleString() : '0';
   return (
     <TableRow>
-      <TableCell className="font-medium">001</TableCell>
-      <TableCell>example@example.com</TableCell>
-      <TableCell>User</TableCell>
-      <TableCell>Activo</TableCell>
-      <TableCell className="text-right">30.000 COP</TableCell>
+      <TableCell className="font-medium">{user.userId}</TableCell>
+      <TableCell>{user.email}</TableCell>
+      <TableCell>{user.role}</TableCell>
+      <TableCell>{user.isActive ? 'Activo' : 'Inactivo'}</TableCell>
+      <TableCell className="text-right">{`${userCashAmount} COP`}</TableCell>
     </TableRow>
   );
 };

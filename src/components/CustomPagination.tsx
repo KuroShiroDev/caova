@@ -12,9 +12,10 @@ import { usePathname, useSearchParams } from 'next/navigation';
 
 interface Props {
   total?: number;
+  pageSize?: number;
 }
 
-const CustomPagination = ({ total = 0 }: Props) => {
+const CustomPagination = ({ total = 0, pageSize = 1 }: Props) => {
   // getthe page actual link to generate the dynamic links and use in the paginationLink components using next
   const currentLink = usePathname();
   const params = useSearchParams();
@@ -24,7 +25,6 @@ const CustomPagination = ({ total = 0 }: Props) => {
     return currentLink + `?page=${page}`;
   };
 
-  const pageSize = 1;
   const pageCount = Math.ceil(total / pageSize);
   const maxVisbilePages = 5;
 

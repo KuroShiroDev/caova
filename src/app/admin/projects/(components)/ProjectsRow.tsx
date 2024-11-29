@@ -13,9 +13,9 @@ const ProjectsRow = ({ project }: Props) => {
       <TableCell>{project.address}</TableCell>
       <TableCell>{project.title}</TableCell>
       {/* //TODO: Apply currency format */}
-      <TableCell>{project.projectValueTotal?.toString()} COP</TableCell>
+      <TableCell>{project.projectValueTotal?.toLocaleString()} COP</TableCell>
       {/* //TODO: Apply currency format */}
-      <TableCell>{project.projectValueActual ? `${project.projectValueActual?.toString()} COP` : 'Pendiente'}</TableCell>
+      <TableCell>{project.projectValueActual ? `${project.projectValueActual?.toLocaleString()} COP` : 'Pendiente'}</TableCell>
       <TableCell>{project.status}</TableCell>
       <TableCell>{project.startIncomeDate?.toLocaleDateString()} </TableCell>
       <TableCell>{project.endIncomeDate?.toLocaleDateString()}</TableCell>

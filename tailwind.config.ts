@@ -10,6 +10,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      minHeight: {
+        content: '500px',
+      },
       fontFamily: {
         almarai: 'var(--font-almarai)',
         poppins: 'var(--font-poppins)',

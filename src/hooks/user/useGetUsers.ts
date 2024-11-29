@@ -1,24 +1,25 @@
 import { getProjects } from '@/actions/projects';
-import { Project } from '@prisma/client';
+import { getUsers } from '@/actions/users';
+import { Project, User } from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-interface Projects {
+interface Users {
   total: number;
-  projects: Project[];
+  users: User[];
 }
 
-const useGetProjects = () => {
+const useGetUsers = () => {
   const params = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
-  const [projects, setProjects] = useState<Projects>();
+  const [users, setUsers] = useState<Users>();
   const actualPage = params.get('page') ? parseInt(params.get('page') || '') : 1;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getProjects({ page: actualPage, limit: 5 });
-        setProjects({ total: data.total, projects: data.projects });
+        const data = await getUsers({ page: actualPage, limit: 10 });
+        setUsers({ total: data.total, users: data.users });
       } catch (error) {
         console.error(error);
       } finally {
@@ -29,7 +30,7 @@ const useGetProjects = () => {
     fetchData();
   }, [actualPage]);
 
-  return { projects, isLoading };
+  return { users, isLoading };
 };
 
-export default useGetProjects;
+export default useGetUsers;

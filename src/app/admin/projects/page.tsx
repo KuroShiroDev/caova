@@ -4,6 +4,8 @@ import useGetProjects from '@/hooks/project/useGetProjects';
 import PageLoader from '@/components/ui/PageLoader';
 import ProjectFilters from './(components)/ProjectFilters';
 import ProjectsTable from './(components)/ProjectsTable';
+import { useState } from 'react';
+import useHandleFilters from '@/hooks/generic/useHandleFilters';
 
 const AdminProjectsPage = () => {
   const { projects, isLoading } = useGetProjects();
@@ -15,7 +17,7 @@ const AdminProjectsPage = () => {
       <div className="flex flex-col gap-8">
         <ProjectFilters />
         <ProjectsTable projects={projects?.projects || []} />
-        <CustomPagination total={projects?.total} />
+        <CustomPagination total={projects?.total} pageSize={5} />
       </div>
     </div>
   );

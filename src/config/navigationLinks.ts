@@ -7,4 +7,5 @@ export const navigationLinks = [
 export const adminNavigationLinks = [
   { name: 'Proyectos', href: '/admin/projects' },
   { name: 'Usuarios', href: '/admin/users' },
+  { name: 'Inversiones', href: '/admin/investments' },
 ];
