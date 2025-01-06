@@ -14,3 +14,10 @@ export const formatDate = (value: Date) => {
   }
   return value;
 };
+
+export const generateLink = (url: string, params: Record<string, any>) => {
+  const queryString = Object.keys(params)
+    .map((key) => `${key}=${params[key]}`)
+    .join('&');
+  return `${url}?${queryString}`;
+};

@@ -9,7 +9,6 @@ export default function AdminInvestmentsPage() {
   if (isLoading) {
     return <PageLoader />;
   }
-  console.log(investments?.investments[0]);
   return (
     <div className="min-h-content">
       <InvestmentsTable investments={investments?.investments || []} />

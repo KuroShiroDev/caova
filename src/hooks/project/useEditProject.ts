@@ -18,9 +18,6 @@ const useEditProject = ({ project }: Props): { form: UseFormReturn<any>; onSubmi
   const projectCommonAreas = project?.commonAreas?.join(', ');
   const startIncomeDate = project?.startIncomeDate ? formatDate(new Date(project?.startIncomeDate)) : undefined;
   const endIncomeDate = project?.endIncomeDate ? formatDate(new Date(project?.endIncomeDate)) : undefined;
-  console.log(startIncomeDate, endIncomeDate);
-
-  console.log(startIncomeDate, endIncomeDate);
   const form = useForm<z.infer<typeof projectSchema>>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
@@ -65,7 +62,6 @@ const useEditProject = ({ project }: Props): { form: UseFormReturn<any>; onSubmi
       startIncomeDate: new Date(values.startIncomeDate),
       endIncomeDate: new Date(values.endIncomeDate),
     };
-    console.log(transaformedValues);
     try {
       await updateProject(project.projectId, transaformedValues);
       toast({

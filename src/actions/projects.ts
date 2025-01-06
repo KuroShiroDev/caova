@@ -30,7 +30,7 @@ export const getProjects = async ({
 }: GetProjectsArgs): Promise<{ projects: Project[]; total: number }> => {
   const handleAdminProjectFilters = (filters: Record<string, any>) => {
     const adminFilters: Record<string, any> = {};
-    if (filters.search) {
+    if (filters.search && filters.search !== '') {
       adminFilters.OR = [
         {
           title: {
@@ -54,7 +54,6 @@ export const getProjects = async ({
   let projects;
   let total;
   if (filters) {
-    console.log('Admin filters');
     projects = await prisma.project.findMany({
       where: {
         ...handleAdminProjectFilters(filters),

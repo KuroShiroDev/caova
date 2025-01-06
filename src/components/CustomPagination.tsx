@@ -8,21 +8,30 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import { generateLink } from '@/lib/utils';
+import { EntityType, useFilterStore } from '@/store';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 interface Props {
   total?: number;
   pageSize?: number;
+  entity?: EntityType;
 }
 
-const CustomPagination = ({ total = 0, pageSize = 1 }: Props) => {
-  // getthe page actual link to generate the dynamic links and use in the paginationLink components using next
+const CustomPagination = ({ total = 0, pageSize = 1, entity = 'projects' }: Props) => {
+  // get the page actual link to generate the dynamic links and use in the paginationLink components using next
+  const filters = useFilterStore((state) => state.filters);
+  const entityFilters = filters[entity];
   const currentLink = usePathname();
   const params = useSearchParams();
   const actualPage = params.get('page') ? parseInt(params.get('page') || '') : 1;
 
   const getNewLink = (page: number) => {
-    return currentLink + `?page=${page}`;
+    let link = generateLink(currentLink, {
+      ...entityFilters.filters,
+      page: page,
+    });
+    return link;
   };
 
   const pageCount = Math.ceil(total / pageSize);

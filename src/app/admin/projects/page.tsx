@@ -4,8 +4,6 @@ import useGetProjects from '@/hooks/project/useGetProjects';
 import PageLoader from '@/components/ui/PageLoader';
 import ProjectFilters from './(components)/ProjectFilters';
 import ProjectsTable from './(components)/ProjectsTable';
-import { useState } from 'react';
-import useHandleFilters from '@/hooks/generic/useHandleFilters';
 
 const AdminProjectsPage = () => {
   const { projects, isLoading } = useGetProjects();

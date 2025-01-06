@@ -14,7 +14,7 @@ export default function AdminUsersPage() {
     <div className="flex flex-col gap-8">
       <UserFilters />
       <UsersTable users={users?.users || []} />
-      <CustomPagination total={users?.total} pageSize={10} />
+      <CustomPagination total={users?.total} pageSize={10} entity="users" />
     </div>
   );
 }
