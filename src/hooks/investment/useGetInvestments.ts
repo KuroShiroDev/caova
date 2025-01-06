@@ -1,6 +1,5 @@
 import { getInvestments } from '@/actions/investments';
 import { GetAdminInvestments } from '@/interfaces/investment.interface';
-import { Investement } from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 

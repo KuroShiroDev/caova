@@ -1,6 +1,5 @@
-import { getProjects } from '@/actions/projects';
 import { getUsers } from '@/actions/users';
-import { Project, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 

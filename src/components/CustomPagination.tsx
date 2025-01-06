@@ -27,7 +27,7 @@ const CustomPagination = ({ total = 0, pageSize = 1, entity = 'projects' }: Prop
   const actualPage = params.get('page') ? parseInt(params.get('page') || '') : 1;
 
   const getNewLink = (page: number) => {
-    let link = generateLink(currentLink, {
+    const link = generateLink(currentLink, {
       ...entityFilters.filters,
       page: page,
     });

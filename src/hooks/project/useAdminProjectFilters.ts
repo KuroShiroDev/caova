@@ -1,6 +1,5 @@
 import React from 'react';
-import { useCallback, useEffect, useState } from 'react';
-import { useFilterStore, EntityType } from '@/store';
+import { useEffect } from 'react';
 import { generateLink } from '@/lib/utils';
 import { useRouter, useSearchParams } from 'next/navigation';
 import useManageFilters from '../generic/useManageFilters';
