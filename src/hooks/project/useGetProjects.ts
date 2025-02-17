@@ -34,7 +34,7 @@ const useGetProjects = () => {
     };
 
     fetchData();
-  }, [actualPage, filters]);
+  }, [actualPage, search]);
 
   return { projects, setProjects, isLoading };
 };

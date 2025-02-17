@@ -1,7 +1,7 @@
 import { getInvestments } from '@/actions/investments';
 import { GetAdminInvestments } from '@/interfaces/investment.interface';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 interface Investments {
   total: number;
@@ -13,11 +13,18 @@ const useGetInvestments = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [investments, setInvestments] = useState<Investments>();
   const actualPage = params.get('page') ? parseInt(params.get('page') || '') : 1;
+  const search = params.get('search') || '';
+
+  const filters = useMemo(() => {
+    return {
+      search,
+    };
+  }, [search]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getInvestments({ page: actualPage, limit: 10 });
+        const data = await getInvestments({ page: actualPage, limit: 10, filters });
         setInvestments({ total: data.total, investments: data.investments });
       } catch (error) {
         console.error(error);
