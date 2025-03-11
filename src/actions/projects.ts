@@ -60,6 +60,13 @@ export const getProjects = async ({
       },
       skip: (page - 1) * limit,
       take: limit,
+      include: {
+        Investment: {
+          include: {
+            user: true,
+          },
+        },
+      },
     });
     total = await prisma.project.count({
       where: {

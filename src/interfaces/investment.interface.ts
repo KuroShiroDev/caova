@@ -10,3 +10,12 @@ export interface GetAdminInvestments {
   user: User;
   project: Project;
 }
+
+export interface InvestmentWithUser {
+  amount: bigint;
+  transaction_status: string;
+  createdAt: Date;
+  investmentId: number;
+  projectId: number;
+  user: User;
+}

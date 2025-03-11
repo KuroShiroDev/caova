@@ -2,7 +2,8 @@
 
 import { PrismaClient } from '@prisma/client';
 import { verifyAdmin } from './auth';
-import { GetAdminInvestments } from '@/interfaces/investment.interface';
+import { GetAdminInvestments, InvestmentWithUser } from '@/interfaces/investment.interface';
+import { getOneProjectBasic } from './projects';
 
 const prisma = new PrismaClient();
 
@@ -69,4 +70,31 @@ export const getInvestments = async ({
     total = await prisma.investement.count();
   }
   return { investments, total };
+};
+
+export const getInvestmentsByProjectId = async ({ projectId }: { projectId: number }): Promise<InvestmentWithUser[]> => {
+  const isAdmin = await verifyAdmin();
+  if (!isAdmin) {
+    throw new Error('Unauthorized');
+  }
+
+  const project = await getOneProjectBasic(projectId);
+  if (!project) {
+    throw new Error('Project not found');
+  }
+
+  try {
+    const investments = await prisma.investement.findMany({
+      where: {
+        projectId: project.projectId,
+      },
+      include: {
+        user: true,
+      },
+    });
+    return investments;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error fetching investments');
+  }
 };

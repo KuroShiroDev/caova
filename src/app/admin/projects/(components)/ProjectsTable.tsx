@@ -19,6 +19,7 @@ const ProjectsTable = ({ projects }: Props) => {
           <TableHead>Status</TableHead>
           <TableHead>Fecha Inicial</TableHead>
           <TableHead>Fecha Final</TableHead>
+          <TableHead>Inversiones</TableHead>
           <TableHead className="text-right">Editar</TableHead>
         </TableRow>
       </TableHeader>

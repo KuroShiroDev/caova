@@ -73,3 +73,14 @@ h3 {
 .title {
   @apply text-2xl font-light mb-4 text-slate-700 mt-6 inline-block;
 }
+
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
