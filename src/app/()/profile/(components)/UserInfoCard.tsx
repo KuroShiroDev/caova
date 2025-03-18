@@ -7,7 +7,7 @@ import { DollarSign } from 'lucide-react';
 
 export const UserInfoCard = async () => {
   const user = await getUser();
-  console.log('user', user);
+
   const clerkUser = await currentUser();
 
   return (
@@ -24,9 +24,7 @@ export const UserInfoCard = async () => {
 
         <div className="flex items-center gap-2 mt-4 ml-0 md:mt-0 md:ml-auto">
           <DollarSign className="h-8 w-8 text-primary font-bold" />
-          <span className="font-bold text-4xl text-primary font-poppins">
-            {currencyFormat(Number(user?.cashAmount ?? 0))}
-          </span>
+          <span className="font-bold text-4xl text-primary font-poppins">{currencyFormat(Number(user?.cashAmount ?? 0))}</span>
         </div>
       </CardContent>
     </Card>

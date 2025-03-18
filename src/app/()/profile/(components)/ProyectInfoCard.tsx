@@ -7,7 +7,7 @@ import { MapPinIcon, DollarSignIcon, CalendarIcon } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 
-export const ProyectInfoCard = () => {
+export const ProyectInfoCard = async () => {
   const project = {
     projectId: 'PROJ001',
     title: 'Desarrollo Residencial Sunset',
@@ -27,12 +27,7 @@ export const ProyectInfoCard = () => {
   return (
     <Card className="w-full max-w-md  ">
       <div className="relative w-full h-[200px]">
-        <Image
-          className=" rounded-t-lg"
-          src="/real-state.avif"
-          alt="Imagen del Desarrollo Residencial Sunset"
-          fill
-        />
+        <Image className=" rounded-t-lg" src="/real-state.avif" alt="Imagen del Desarrollo Residencial Sunset" fill />
       </div>
       <CardHeader>
         <div className="flex justify-between items-start">
@@ -69,8 +64,7 @@ export const ProyectInfoCard = () => {
           Creado el {project.createdAt.toLocaleDateString()}
         </div>
         <div className="text-sm text-muted-foreground">
-          Periodo: {project.startIncomeDate.toLocaleDateString()} -{' '}
-          {project.endIncomeDate.toLocaleDateString()}
+          Periodo: {project.startIncomeDate.toLocaleDateString()} - {project.endIncomeDate.toLocaleDateString()}
         </div>
       </CardContent>
       <CardFooter className="flex justify-end">

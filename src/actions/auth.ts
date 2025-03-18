@@ -5,7 +5,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export const handleUserLogin = async () => {
+export const isLogged = async () => {
   const { userId } = auth();
 
   if (!userId) {
@@ -17,6 +17,15 @@ export const handleUserLogin = async () => {
   if (!user) {
     throw new Error('No user found');
   }
+
+  return {
+    userId,
+    user,
+  };
+};
+
+export const handleUserLogin = async () => {
+  const { user, userId } = await isLogged();
 
   let dbUser = await prisma.user.findUnique({
     where: {
@@ -43,8 +52,6 @@ export const getUser = async () => {
   if (!userId) {
     throw new Error('No user ID found');
   }
-
-  console.log('userId', userId);
 
   return prisma.user.findUnique({
     where: {
