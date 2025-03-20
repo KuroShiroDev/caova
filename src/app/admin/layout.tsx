@@ -5,7 +5,7 @@ import React from 'react';
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <React.Fragment>
-      <Header isAdmin={true} />
+      <Header isAdminPortal={true} />
       <MaxWidthWrapper>{children}</MaxWidthWrapper>
     </React.Fragment>
   );

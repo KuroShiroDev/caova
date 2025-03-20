@@ -7,14 +7,14 @@ import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { navigationLinks, adminNavigationLinks } from '@/config/navigationLinks';
 import Link from 'next/link';
 import { AuthClerkButton } from '../clerk/AuthClerkButton';
-
 interface HeaderProps {
   isAdmin?: boolean;
+  isAdminPortal?: boolean;
 }
 
-export const Header = ({ isAdmin = false }: HeaderProps) => {
+export const Header = ({ isAdmin = false, isAdminPortal = false }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navLinks = isAdmin ? adminNavigationLinks : navigationLinks;
+  const navLinks = isAdminPortal ? adminNavigationLinks : navigationLinks;
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -37,6 +37,7 @@ export const Header = ({ isAdmin = false }: HeaderProps) => {
               {link.name}
             </Link>
           ))}
+          {isAdmin && <Link href="/admin/projects">Admin</Link>}
         </nav>
         <AuthClerkButton />
       </header>
@@ -44,14 +45,15 @@ export const Header = ({ isAdmin = false }: HeaderProps) => {
       <div
         className={`fixed top-0 right-0 h-full w-3/4 bg-primary text-primary-foreground shadow-lg z-50 transform ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        } transition-transform duration-300 ease-in-out md:hidden`}
-      >
+        } transition-transform duration-300 ease-in-out md:hidden`}>
         <div className="flex flex-col items-center justify-center h-full space-y-8 font-bold text-lg">
           {navigationLinks.map((link) => (
             <Link href={link.href} key={link.href}>
               {link.name}
             </Link>
           ))}
+          {isAdmin && <Link href="/admin/projects">Admin</Link>}
+
           <AuthClerkButton />
         </div>
       </div>

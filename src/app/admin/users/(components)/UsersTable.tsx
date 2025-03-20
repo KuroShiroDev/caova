@@ -1,8 +1,13 @@
+'use client';
 import React from 'react';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import UsersRow from './UsersRow';
+import { User } from '@prisma/client';
 
-const UsersTable = () => {
+interface Props {
+  users: User[];
+}
+const UsersTable = ({ users }: Props) => {
   return (
     <Table>
       <TableHeader>
@@ -15,8 +20,8 @@ const UsersTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((user) => (
-          <UsersRow key={user} />
+        {users.map((user) => (
+          <UsersRow key={user.userId} user={user} />
         ))}
       </TableBody>
     </Table>

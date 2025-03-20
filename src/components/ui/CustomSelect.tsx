@@ -11,13 +11,14 @@ interface Props {
   label?: string;
   options: Options[];
   placeHolder?: string;
+  onChange?: (value: string) => void;
 }
 
-const CustomSelect = ({ label, options, placeHolder = '' }: Props) => {
+const CustomSelect = ({ label, options, placeHolder = '', onChange }: Props) => {
   return (
     <div className="min-w-[200px]">
       {label && <Label>{label}</Label>}
-      <Select>
+      <Select onValueChange={onChange}>
         <SelectTrigger>
           <SelectValue placeholder={placeHolder} />
         </SelectTrigger>
