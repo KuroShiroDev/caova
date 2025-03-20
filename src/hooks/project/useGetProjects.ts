@@ -1,11 +1,11 @@
 import { getProjects } from '@/actions/projects';
-import { Project } from '@prisma/client';
+import { ProjectWithInvestmentsAndUsers } from '@/interfaces/project.interface';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
 interface Projects {
   total: number;
-  projects: Project[];
+  projects: ProjectWithInvestmentsAndUsers[];
 }
 
 const useGetProjects = () => {
@@ -34,7 +34,7 @@ const useGetProjects = () => {
     };
 
     fetchData();
-  }, [actualPage, search]);
+  }, [actualPage, search, filters]);
 
   return { projects, setProjects, isLoading };
 };

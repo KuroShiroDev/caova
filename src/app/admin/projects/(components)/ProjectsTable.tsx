@@ -1,10 +1,10 @@
 import React from 'react';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import ProjectsRow from './ProjectsRow';
-import { Project } from '@prisma/client';
+import { ProjectWithInvestmentsAndUsers } from '@/interfaces/project.interface';
 
 interface Props {
-  projects: Project[];
+  projects: ProjectWithInvestmentsAndUsers[];
 }
 const ProjectsTable = ({ projects }: Props) => {
   return (

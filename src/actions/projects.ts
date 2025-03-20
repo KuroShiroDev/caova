@@ -1,7 +1,7 @@
 'use server';
 import { PrismaClient, Project } from '@prisma/client';
 import { verifyAdmin } from './auth';
-import { ProjectFormValues } from '@/interfaces/project.interface';
+import { ProjectFormValues, ProjectWithInvestmentsAndUsers } from '@/interfaces/project.interface';
 
 const prisma = new PrismaClient();
 
@@ -27,7 +27,7 @@ export const getProjects = async ({
   page = 1,
   limit = 10,
   filters,
-}: GetProjectsArgs): Promise<{ projects: Project[]; total: number }> => {
+}: GetProjectsArgs): Promise<{ projects: ProjectWithInvestmentsAndUsers[]; total: number }> => {
   const handleAdminProjectFilters = (filters: Record<string, any>) => {
     const adminFilters: Record<string, any> = {};
     if (filters.search && filters.search !== '') {
@@ -77,6 +77,13 @@ export const getProjects = async ({
     projects = await prisma.project.findMany({
       skip: (page - 1) * limit,
       take: limit,
+      include: {
+        Investment: {
+          include: {
+            user: true,
+          },
+        },
+      },
     });
     total = await prisma.project.count();
   }

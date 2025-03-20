@@ -1,3 +1,4 @@
+import { Project } from '@prisma/client';
 import { InvestmentWithUser } from './investment.interface';
 
 export interface ProjectFormValues {
@@ -34,44 +35,6 @@ export interface ProjectFormValues {
   contigenciesFee?: number;
 }
 
-export interface ProjectWithInvestmentsAndUsers {
-  title: string;
-  address: string;
-  description?: string;
-  projectValueTotal?: number;
-  projectValueActual?: number;
-  media: string[];
-  documents: any[];
-  createdAt: Date;
-  updatedAt: Date;
-  accountServicesCost?: number;
-  basicEquipmentAndTestingCost?: number;
-  bathrooms: number;
-  bedrooms: number;
-  builder?: string;
-  cetificatesSNandRCost?: number;
-  city: string;
-  commonAreas: string[];
-  companiesIncorporationCost?: number;
-  contigenciesFee?: number;
-  country: string;
-  department: string;
-  endIncomeDate?: Date;
-  finishingCost?: number;
-  incomeFromValuationAnnualCash?: number;
-  legalCost?: number;
-  projectLinks?: string;
-  propertyAppraisal?: number;
-  propertyType: string;
-  rentalYieldsAnnualCash?: number;
-  searchAndAdvertisingFee?: number;
-  squareMeters: number;
-  startIncomeDate?: Date;
-  studyTitleCost?: number;
-  totalPropertyCost?: number;
-  transactionCost?: number;
-  status: string;
-  projectId: number;
-  minInvestmentAmount: number;
+export interface ProjectWithInvestmentsAndUsers extends Project {
   Investment: InvestmentWithUser[];
 }
