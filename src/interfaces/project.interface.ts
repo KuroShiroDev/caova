@@ -38,3 +38,7 @@ export interface ProjectFormValues {
 export interface ProjectWithInvestmentsAndUsers extends Project {
   Investment: InvestmentWithUser[];
 }
+
+export interface IProject extends Project {
+  totalInvestmentAmount?: number;
+}

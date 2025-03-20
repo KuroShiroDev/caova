@@ -1,7 +1,7 @@
 'use server';
 import { PrismaClient, Project } from '@prisma/client';
-import { verifyAdmin } from './auth';
-import { ProjectFormValues, ProjectWithInvestmentsAndUsers } from '@/interfaces/project.interface';
+import { getUser, verifyAdmin } from './auth';
+import { ProjectFormValues, ProjectWithInvestmentsAndUsers, IProject } from '@/interfaces/project.interface';
 
 const prisma = new PrismaClient();
 
@@ -28,10 +28,10 @@ export const getProjects = async ({
   limit = 10,
   filters,
 }: GetProjectsArgs): Promise<{ projects: ProjectWithInvestmentsAndUsers[]; total: number }> => {
-  const handleAdminProjectFilters = (filters: Record<string, any>) => {
-    const adminFilters: Record<string, any> = {};
+  const handleProjectFilters = (filters: Record<string, any>) => {
+    const dynamicFilters: Record<string, any> = {};
     if (filters.search && filters.search !== '') {
-      adminFilters.OR = [
+      dynamicFilters.OR = [
         {
           title: {
             contains: filters.search,
@@ -46,17 +46,19 @@ export const getProjects = async ({
         },
       ];
     }
-    if (filters.status) {
-      adminFilters.status = filters.status;
-    }
-    return adminFilters;
+    Object.keys(filters).forEach((key) => {
+      if (key !== 'search' && filters[key] !== undefined && filters[key] !== '') {
+        dynamicFilters[key] = filters[key];
+      }
+    });
+    return dynamicFilters;
   };
   let projects;
   let total;
   if (filters) {
     projects = await prisma.project.findMany({
       where: {
-        ...handleAdminProjectFilters(filters),
+        ...handleProjectFilters(filters),
       },
       skip: (page - 1) * limit,
       take: limit,
@@ -70,7 +72,7 @@ export const getProjects = async ({
     });
     total = await prisma.project.count({
       where: {
-        ...handleAdminProjectFilters(filters),
+        ...handleProjectFilters(filters),
       },
     });
   } else {
@@ -146,4 +148,89 @@ export const removeMediaFromProject = async (projectId: number, urls: string[]):
   });
 
   return updatedProject;
+};
+
+export const getProjectsByUser = async (page = 1, limit = 10): Promise<IProject[]> => {
+  const user = await getUser();
+  if (!user) {
+    throw new Error('No user found');
+  }
+
+  const projects = await prisma.project.findMany({
+    skip: (page - 1) * limit,
+    take: limit,
+    where: {
+      Investment: {
+        some: {
+          userId: user.userId,
+        },
+      },
+    },
+  });
+
+  const projectsWithInvestmentSum = await Promise.all(
+    projects.map(async (project) => {
+      const totalInvestment = await prisma.investement.aggregate({
+        _sum: {
+          amount: true,
+        },
+        where: {
+          projectId: project.projectId,
+        },
+      });
+
+      return {
+        ...project,
+        totalInvestmentAmount: Number(totalInvestment._sum.amount || 0),
+      };
+    })
+  );
+
+  return projectsWithInvestmentSum;
+};
+
+export const getProjectByUser = async (projectId: number): Promise<IProject> => {
+  const user = await getUser();
+  if (!user) {
+    throw new Error('Unauthorized or user not found');
+  }
+
+  const project = await prisma.project.findUnique({
+    where: {
+      projectId: Number(projectId),
+    },
+  });
+
+  if (!project) {
+    throw new Error('Project not found');
+  }
+
+  const userInvestment = await prisma.investement.aggregate({
+    _sum: {
+      amount: true,
+    },
+    where: {
+      projectId: Number(projectId),
+      userId: user.userId,
+    },
+  });
+
+  return {
+    ...project,
+    totalInvestmentAmount: Number(userInvestment._sum.amount),
+  };
+};
+
+export const getProjectById = async (projectId: number): Promise<Project> => {
+  const project = await prisma.project.findUnique({
+    where: {
+      projectId: Number(projectId),
+    },
+  });
+
+  if (!project) {
+    throw new Error('Project not found');
+  }
+
+  return project;
 };

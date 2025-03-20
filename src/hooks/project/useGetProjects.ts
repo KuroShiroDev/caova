@@ -8,7 +8,7 @@ interface Projects {
   projects: ProjectWithInvestmentsAndUsers[];
 }
 
-const useGetProjects = () => {
+const useGetProjects = (limit = 5) => {
   const params = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState<Projects>();
@@ -24,7 +24,7 @@ const useGetProjects = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getProjects({ page: actualPage, limit: 5, filters });
+        const data = await getProjects({ page: actualPage, limit, filters });
         setProjects({ total: data.total, projects: data.projects });
       } catch (error) {
         console.error(error);
@@ -34,7 +34,7 @@ const useGetProjects = () => {
     };
 
     fetchData();
-  }, [actualPage, search, filters]);
+  }, [actualPage, search, filters, limit]);
 
   return { projects, setProjects, isLoading };
 };
