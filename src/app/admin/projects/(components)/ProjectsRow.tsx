@@ -1,5 +1,4 @@
 import { TableCell, TableRow } from '@/components/ui/table';
-import { Project } from '@prisma/client';
 import React from 'react';
 import EditProjectPopOver from './EditProjectPopOver';
 import { ProjectInvesmentDialog } from './ProjectInvestmentDialog';
