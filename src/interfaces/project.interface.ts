@@ -1,3 +1,5 @@
+import { Project } from "@prisma/client";
+
 export interface CreateProject {
   title: string;
   description: string;
@@ -30,4 +32,9 @@ export interface CreateProject {
   transactionCost?: number;
   searchAndAdvertisingFee?: number;
   contigenciesFee?: number;
+}
+
+
+export interface IProject extends Project {
+  totalInvestmentAmount?: number;
 }

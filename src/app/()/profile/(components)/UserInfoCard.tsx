@@ -3,7 +3,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardTitle, CardContent } from '@/components/ui/card';
 import { currencyFormat } from '@/lib/utils';
 import { currentUser } from '@clerk/nextjs/server';
-import { DollarSign } from 'lucide-react';
 
 export const UserInfoCard = async () => {
   const user = await getUser();
@@ -23,7 +22,6 @@ export const UserInfoCard = async () => {
         </div>
 
         <div className="flex items-center gap-2 mt-4 ml-0 md:mt-0 md:ml-auto">
-          <DollarSign className="h-8 w-8 text-primary font-bold" />
           <span className="font-bold text-4xl text-primary font-poppins">{currencyFormat(Number(user?.cashAmount ?? 0))}</span>
         </div>
       </CardContent>

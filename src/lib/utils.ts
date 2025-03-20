@@ -17,5 +17,12 @@ export const currencyFormat = (
     maximumFractionDigits,
   }).format(value);
 
-  return formattedValue.replace(/[^\d.,-]/g, '').trim();
+  return formattedValue
+};
+
+export const calculateProgressPercentage = (projectValueActual: bigint, projectValueTotal: bigint): number => {
+  if (projectValueTotal === BigInt(0)) {
+    return 0; 
+  }
+  return Number((projectValueActual * BigInt(100)) / projectValueTotal);
 };

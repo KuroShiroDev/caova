@@ -1,7 +1,7 @@
 'use server';
 import { PrismaClient, Project } from '@prisma/client';
 import { getUser, verifyAdmin } from './auth';
-import { CreateProject } from '@/interfaces/project.interface';
+import { CreateProject, IProject } from '@/interfaces/project.interface';
 
 const prisma = new PrismaClient();
 
@@ -17,7 +17,7 @@ export const createProject = async (values: CreateProject): Promise<Project> => 
   return project;
 };
 
-export const getProjects = async ({ page = 1, limit = 10 }): Promise<Project[]> => {
+export const getProjects = async ( page = 1, limit = 10 ): Promise<Project[]> => {
   const projects = await prisma.project.findMany({
     skip: (page - 1) * limit,
     take: limit,
@@ -25,7 +25,7 @@ export const getProjects = async ({ page = 1, limit = 10 }): Promise<Project[]> 
   return projects;
 };
 
-export const getProjectsByUser = async ({ page = 1, limit = 10 }): Promise<Project[]> => {
+export const getProjectsByUser = async (page = 1, limit = 10): Promise<IProject[]> => {
   const user = await getUser();
   if (!user) {
     throw new Error('No user found');
@@ -34,9 +34,9 @@ export const getProjectsByUser = async ({ page = 1, limit = 10 }): Promise<Proje
   const projects = await prisma.project.findMany({
     skip: (page - 1) * limit,
     take: limit,
-    include: {
+    where: {
       Investment: {
-        where: {
+        some: {
           userId: user.userId,
         },
       },
@@ -56,10 +56,42 @@ export const getProjectsByUser = async ({ page = 1, limit = 10 }): Promise<Proje
 
       return {
         ...project,
-        totalInvestmentAmount: totalInvestment._sum.amount || 0,
+        totalInvestmentAmount: Number(totalInvestment._sum.amount || 0),
       };
     })
   );
 
   return projectsWithInvestmentSum;
+};
+
+export const getProjectByUser = async (projectId: number): Promise<IProject> => {
+  const user = await getUser();
+  if (!user) {
+    throw new Error('Unauthorized or user not found');
+  }
+
+  const project = await prisma.project.findUnique({
+    where: {
+      projectId: Number(projectId),
+    },
+  });
+
+  if (!project) {
+    throw new Error('Project not found');
+  }
+
+  const userInvestment = await prisma.investement.aggregate({
+    _sum: {
+      amount: true,
+    },
+    where: {
+      projectId: Number(projectId),
+      userId: user.userId,
+    },
+  });
+
+  return {
+    ...project,
+    totalInvestmentAmount: Number(userInvestment._sum.amount),
+  };
 };

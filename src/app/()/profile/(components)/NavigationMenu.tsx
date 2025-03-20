@@ -1,9 +1,12 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { navigationMenuProfile } from '../(data)/data';
-import { ProyectInfoCard } from './ProyectInfoCard';
+import { ProjectsInfoCard } from '../../../../components/projects/ProjectsInfoCard';
+import { getProjectsByUser } from '@/actions/projects';
 
-export const NavigationMenu = () => {
+export const NavigationMenu  = async () => {
+  const projects = await getProjectsByUser();
+
   return (
     <Card className="w-full shadow-lg ">
       <Tabs defaultValue="projects" className="w-full">
@@ -21,7 +24,7 @@ export const NavigationMenu = () => {
         </CardHeader>
         <CardContent>
           <TabsContent value="projects" className="w-full">
-            <ProyectInfoCard />
+            <ProjectsInfoCard basePath='profile' projects={projects} />
           </TabsContent>
         </CardContent>
       </Tabs>
