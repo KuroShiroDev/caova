@@ -9,7 +9,7 @@ export const isLogged = async () => {
   const { userId } = auth();
 
   if (!userId) {
-    throw new Error('No user ID found');
+    return null;
   }
 
   const user = await currentUser();
@@ -25,7 +25,13 @@ export const isLogged = async () => {
 };
 
 export const handleUserLogin = async () => {
-  const { user, userId } = await isLogged();
+  const loggedInUser = await isLogged();
+
+  if (!loggedInUser) {
+    throw new Error('User is not logged in');
+  }
+
+  const { userId, user } = loggedInUser;
 
   let dbUser = await prisma.user.findUnique({
     where: {
@@ -62,5 +68,8 @@ export const getUser = async () => {
 
 export const verifyAdmin = async () => {
   const user = await handleUserLogin();
+  if (user === null) {
+    return false;
+  }
   return user.role === 'admin';
 };

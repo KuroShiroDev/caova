@@ -1,31 +1,100 @@
 'use server';
 
 import { PrismaClient } from '@prisma/client';
-import { getUser } from './auth';
-import { UserProject } from '@/interfaces/project.interface';
+import { verifyAdmin } from './auth';
+import { GetAdminInvestments, InvestmentWithUser } from '@/interfaces/investment.interface';
+import { getOneProjectBasic } from './projects';
 
 const prisma = new PrismaClient();
 
-export const getUserInvestments = async (): Promise<UserProject[]> => {
-  const user = await getUser();
+export const getInvestments = async ({
+  page = 1,
+  limit = 10,
+  filters,
+}): Promise<{ investments: GetAdminInvestments[]; total: number }> => {
+  const handleInvestmentFilters = (filters: Record<string, any>) => {
+    const investmentFilters: Record<string, any> = {};
 
-  if (!user) {
-    throw new Error('No user found');
+    if (filters.search && filters.search !== '') {
+      investmentFilters.OR = [
+        {
+          project: {
+            title: {
+              contains: filters.search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          project: {
+            address: {
+              contains: filters.search,
+              mode: 'insensitive',
+            },
+          },
+        },
+      ];
+      return investmentFilters;
+    }
+  };
+  const isAdmin = await verifyAdmin();
+  if (!isAdmin) {
+    throw new Error('Unauthorized');
   }
 
-  const investments = await prisma.$queryRaw<UserProject[]>`
-  SELECT i."projectId", SUM(i.amount) as "totalInvestmentAmount", p.*
-  FROM "Investement" i
-  JOIN "Project" p ON i."projectId" = p."projectId"
-  WHERE i."transaction_status" = 'APPROVE'
-  GROUP BY i."projectId", p."projectId"
-  HAVING STRING_AGG(i."userId", ',') LIKE CONCAT('%', ${user.userId}, '%')
-`;
+  let investments;
+  let total;
+  console.log(filters);
+  if (filters) {
+    investments = await prisma.investement.findMany({
+      include: {
+        user: true,
+        project: true,
+      },
+      where: { ...handleInvestmentFilters(filters) },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+    total = await prisma.investement.count({
+      where: { ...handleInvestmentFilters(filters) },
+    });
+  } else {
+    investments = await prisma.investement.findMany({
+      include: {
+        user: true,
+        project: true,
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+    total = await prisma.investement.count();
+  }
+  return { investments, total };
+};
 
-  const formattedInvestments = investments.map((investment) => ({
-    ...investment,
-    totalInvestmentAmount: Number(investment.totalInvestmentAmount),
-  }));
+export const getInvestmentsByProjectId = async ({ projectId }: { projectId: number }): Promise<InvestmentWithUser[]> => {
+  const isAdmin = await verifyAdmin();
+  if (!isAdmin) {
+    throw new Error('Unauthorized');
+  }
 
-  return formattedInvestments;
+  const project = await getOneProjectBasic(projectId);
+  if (!project) {
+    throw new Error('Project not found');
+  }
+
+  try {
+    const investments = await prisma.investement.findMany({
+      where: {
+        projectId: project.projectId,
+      },
+      include: {
+        user: true,
+      },
+    });
+    return investments;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error fetching investments');
+  }
 };
