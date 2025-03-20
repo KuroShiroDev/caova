@@ -29,7 +29,7 @@ export default function ProjectsPage() {
 
         <Separator />
 
-        {projects && <ProjectsInfoCard basePath="projects" projects={projects?.projects} />}
+        {projects && <ProjectsInfoCard  projects={projects?.projects} />}
         <CustomPagination total={projects?.total} pageSize={6} />
       </div>
     </MaxWidthWrapper>

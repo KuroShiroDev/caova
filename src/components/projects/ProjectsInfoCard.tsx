@@ -75,7 +75,7 @@ export const ProjectsInfoCard = ({ projects, basePath }: ProjectInfoCardProps) =
             </div>
           </CardContent>
           <CardFooter className="flex justify-end">
-            <Link href={`${basePath}/projects/${project.projectId}`}>
+            <Link href={`${basePath ? `${basePath}/` : ''}projects/${project.projectId}`}>
               <Button variant="outline" size="sm">
                 Ver Detalles
               </Button>

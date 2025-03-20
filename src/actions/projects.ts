@@ -150,7 +150,6 @@ export const removeMediaFromProject = async (projectId: number, urls: string[]):
   return updatedProject;
 };
 
-
 export const getProjectsByUser = async (page = 1, limit = 10): Promise<IProject[]> => {
   const user = await getUser();
   if (!user) {
@@ -220,4 +219,18 @@ export const getProjectByUser = async (projectId: number): Promise<IProject> => 
     ...project,
     totalInvestmentAmount: Number(userInvestment._sum.amount),
   };
+};
+
+export const getProjectById = async (projectId: number): Promise<Project> => {
+  const project = await prisma.project.findUnique({
+    where: {
+      projectId: Number(projectId),
+    },
+  });
+
+  if (!project) {
+    throw new Error('Project not found');
+  }
+
+  return project;
 };
