@@ -9,31 +9,31 @@ datasource db {
 
 model User {
   name                  String
-  email                 String        @unique
-  isVerified            Boolean       @default(false)
+  email                 String       @unique
+  isVerified            Boolean      @default(false)
   identificationImgLink String?
-  isActive              Boolean       @default(true)
-  createdAt             DateTime      @default(now())
-  updatedAt             DateTime      @updatedAt
-  role                  Role          @default(user)
-  cashAmount            BigInt?
+  isActive              Boolean      @default(true)
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+  role                  Role         @default(user)
   idNumber              String?
-  idType                String        @default("cedula")
+  idType                String       @default("cedula")
   phoneNumber           String?
-  userId                String        @id
-  Investment            Investement[]
+  userId                String       @id
+  totalBalance          BigInt       @default(0)
+  Investment            Investment[]
 }
 
 model Project {
-  title                         String        @unique
+  title                         String       @unique
   address                       String
   description                   String?
   projectValueTotal             BigInt?
   projectValueActual            BigInt?
   media                         String[]
   documents                     String[]
-  createdAt                     DateTime      @default(now())
-  updatedAt                     DateTime      @updatedAt
+  createdAt                     DateTime     @default(now())
+  updatedAt                     DateTime     @updatedAt
   accountServicesCost           BigInt?
   basicEquipmentAndTestingCost  BigInt?
   bathrooms                     Int
@@ -60,22 +60,21 @@ model Project {
   studyTitleCost                BigInt?
   totalPropertyCost             BigInt?
   transactionCost               BigInt?
-  status                        String        @default("inactivo")
-  projectId                     Int           @id @default(autoincrement())
+  status                        String       @default("inactivo")
+  projectId                     Int          @id @default(autoincrement())
   minInvestmentAmount           Int
-  Investment                    Investement[]
+  Investment                    Investment[]
 }
 
 model Transaction {
   amount        BigInt
-  createdAt     DateTime    @default(now())
-  transactionId Int         @id @default(autoincrement())
+  createdAt     DateTime   @default(now())
+  transactionId Int        @id @default(autoincrement())
   investmentId  Int
-  investment    Investement @relation(fields: [investmentId], references: [investmentId])
+  investment    Investment @relation(fields: [investmentId], references: [investmentId])
 }
 
-//TODO: Cambiar nombre de investement a investment
-model Investement {
+model Investment {
   amount             BigInt
   transaction_status String
   createdAt          DateTime      @default(now())

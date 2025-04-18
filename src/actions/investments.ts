@@ -46,7 +46,7 @@ export const getInvestments = async ({
   let total;
   console.log(filters);
   if (filters) {
-    investments = await prisma.investement.findMany({
+    investments = await prisma.investment.findMany({
       include: {
         user: true,
         project: true,
@@ -55,11 +55,11 @@ export const getInvestments = async ({
       skip: (page - 1) * limit,
       take: limit,
     });
-    total = await prisma.investement.count({
+    total = await prisma.investment.count({
       where: { ...handleInvestmentFilters(filters) },
     });
   } else {
-    investments = await prisma.investement.findMany({
+    investments = await prisma.investment.findMany({
       include: {
         user: true,
         project: true,
@@ -67,7 +67,7 @@ export const getInvestments = async ({
       skip: (page - 1) * limit,
       take: limit,
     });
-    total = await prisma.investement.count();
+    total = await prisma.investment.count();
   }
   return { investments, total };
 };
@@ -84,7 +84,7 @@ export const getInvestmentsByProjectId = async ({ projectId }: { projectId: numb
   }
 
   try {
-    const investments = await prisma.investement.findMany({
+    const investments = await prisma.investment.findMany({
       where: {
         projectId: project.projectId,
       },

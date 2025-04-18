@@ -19,14 +19,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <EdgeStoreProvider basePath="/api/edgestore">
       <html lang="en">
         <body className={`${geistAlmarai.variable} ${geistPoppins.variable}   antialiased`}>
-          <EdgeStoreProvider basePath="/api/edgestore">{children}</EdgeStoreProvider>
+          <ClerkProvider>{children}</ClerkProvider>
           <Toaster />
           <Footer />
         </body>
       </html>
-    </ClerkProvider>
+    </EdgeStoreProvider>
   );
 }

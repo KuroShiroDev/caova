@@ -1,0 +1,1 @@
+ALTER TABLE "Investement" RENAME TO "Investment";

@@ -170,7 +170,7 @@ export const getProjectsByUser = async (page = 1, limit = 10): Promise<IProject[
 
   const projectsWithInvestmentSum = await Promise.all(
     projects.map(async (project) => {
-      const totalInvestment = await prisma.investement.aggregate({
+      const totalInvestment = await prisma.investment.aggregate({
         _sum: {
           amount: true,
         },
@@ -205,7 +205,7 @@ export const getProjectByUser = async (projectId: number): Promise<IProject> => 
     throw new Error('Project not found');
   }
 
-  const userInvestment = await prisma.investement.aggregate({
+  const userInvestment = await prisma.investment.aggregate({
     _sum: {
       amount: true,
     },

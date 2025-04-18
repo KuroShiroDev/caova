@@ -28,7 +28,7 @@ export const handleUserLogin = async () => {
   const loggedInUser = await isLogged();
 
   if (!loggedInUser) {
-    throw new Error('User is not logged in');
+    return null;
   }
 
   const { userId, user } = loggedInUser;
