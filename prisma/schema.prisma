@@ -74,6 +74,7 @@ model Transaction {
   investment    Investement @relation(fields: [investmentId], references: [investmentId])
 }
 
+//TODO: Cambiar nombre de investement a investment
 model Investement {
   amount             BigInt
   transaction_status String

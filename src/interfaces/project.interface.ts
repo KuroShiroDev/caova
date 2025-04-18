@@ -1,4 +1,7 @@
-export interface CreateProject {
+import { Project } from '@prisma/client';
+import { InvestmentWithUser } from './investment.interface';
+
+export interface ProjectFormValues {
   title: string;
   description: string;
   address: string;
@@ -30,4 +33,12 @@ export interface CreateProject {
   transactionCost?: number;
   searchAndAdvertisingFee?: number;
   contigenciesFee?: number;
+}
+
+export interface ProjectWithInvestmentsAndUsers extends Project {
+  Investment: InvestmentWithUser[];
+}
+
+export interface IProject extends Project {
+  totalInvestmentAmount?: number;
 }

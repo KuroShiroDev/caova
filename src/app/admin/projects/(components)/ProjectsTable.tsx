@@ -1,8 +1,12 @@
 import React from 'react';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import ProjectsRow from './ProjectsRow';
+import { ProjectWithInvestmentsAndUsers } from '@/interfaces/project.interface';
 
-const ProjectsTable = () => {
+interface Props {
+  projects: ProjectWithInvestmentsAndUsers[];
+}
+const ProjectsTable = ({ projects }: Props) => {
   return (
     <Table>
       <TableHeader>
@@ -14,12 +18,14 @@ const ProjectsTable = () => {
           <TableHead>Colecta Actual</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Fecha Inicial</TableHead>
-          <TableHead className="text-right">Fecha Final</TableHead>
+          <TableHead>Fecha Final</TableHead>
+          <TableHead>Inversiones</TableHead>
+          <TableHead className="text-right">Editar</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((project) => (
-          <ProjectsRow key={project} />
+        {projects.map((project) => (
+          <ProjectsRow key={project.projectId} project={project} />
         ))}
       </TableBody>
     </Table>

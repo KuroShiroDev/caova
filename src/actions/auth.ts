@@ -5,11 +5,11 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export const handleUserLogin = async () => {
+export const isLogged = async () => {
   const { userId } = auth();
 
   if (!userId) {
-    throw new Error('No user ID found');
+    return null;
   }
 
   const user = await currentUser();
@@ -17,6 +17,21 @@ export const handleUserLogin = async () => {
   if (!user) {
     throw new Error('No user found');
   }
+
+  return {
+    userId,
+    user,
+  };
+};
+
+export const handleUserLogin = async () => {
+  const loggedInUser = await isLogged();
+
+  if (!loggedInUser) {
+    throw new Error('User is not logged in');
+  }
+
+  const { userId, user } = loggedInUser;
 
   let dbUser = await prisma.user.findUnique({
     where: {
@@ -37,7 +52,24 @@ export const handleUserLogin = async () => {
   return dbUser;
 };
 
+export const getUser = async () => {
+  const { userId } = auth();
+
+  if (!userId) {
+    throw new Error('No user ID found');
+  }
+
+  return prisma.user.findUnique({
+    where: {
+      userId,
+    },
+  });
+};
+
 export const verifyAdmin = async () => {
   const user = await handleUserLogin();
+  if (user === null) {
+    return false;
+  }
   return user.role === 'admin';
 };
