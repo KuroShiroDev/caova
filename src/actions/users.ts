@@ -1,10 +1,11 @@
 'use server';
 
-import { PrismaClient, User } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { verifyAdmin } from './auth';
+import { UserWithWallet } from '@/interfaces/user.interface';
 
 const prisma = new PrismaClient();
-export const getUsers = async ({ page = 1, limit = 10, filters }): Promise<{ users: User[]; total: number }> => {
+export const getUsers = async ({ page = 1, limit = 10, filters }): Promise<{ users: UserWithWallet[]; total: number }> => {
   const isAdmin = await verifyAdmin();
   if (!isAdmin) {
     throw new Error('Unauthorized');
@@ -41,6 +42,9 @@ export const getUsers = async ({ page = 1, limit = 10, filters }): Promise<{ use
     users = await prisma.user.findMany({
       where: {
         ...handleAdminProjecctFilters(filters),
+      },
+      include: {
+        Wallet: true,
       },
     });
     total = await prisma.user.count({

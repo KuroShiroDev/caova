@@ -2,10 +2,10 @@
 import React from 'react';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import UsersRow from './UsersRow';
-import { User } from '@prisma/client';
+import { UserWithWallet } from '@/interfaces/user.interface';
 
 interface Props {
-  users: User[];
+  users: UserWithWallet[];
 }
 const UsersTable = ({ users }: Props) => {
   return (
