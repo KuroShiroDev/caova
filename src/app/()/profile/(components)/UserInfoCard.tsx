@@ -1,8 +1,10 @@
 import { getUser } from '@/actions/auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import { Card, CardTitle, CardContent } from '@/components/ui/card';
 import { currencyFormat } from '@/lib/utils';
 import { currentUser } from '@clerk/nextjs/server';
+import Link from 'next/link';
 
 export const UserInfoCard = async () => {
   const user = await getUser();
@@ -21,8 +23,14 @@ export const UserInfoCard = async () => {
           <p className="text-sm text-muted-foreground">{user?.email}</p>
         </div>
 
-        <div className="flex items-center gap-2 mt-4 ml-0 md:mt-0 md:ml-auto">
-          <span className="font-bold text-4xl text-primary font-poppins">{currencyFormat(Number(user?.cashAmount ?? 0))}</span>
+        <div className="flex flex-col items-end gap-2 mt-4 ml-0 md:mt-0 md:ml-auto">
+          <Button>
+            <Link href="profile/recharge">Recargar saldo</Link>
+          </Button>
+
+          <span className="font-bold text-4xl text-primary font-poppins">
+            {currencyFormat(Number(user?.Wallet?.balance ?? 0), 0, 0, 'code')}
+          </span>
         </div>
       </CardContent>
     </Card>

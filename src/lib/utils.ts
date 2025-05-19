@@ -25,21 +25,27 @@ export const generateLink = (url: string, params: Record<string, any>) => {
 export const currencyFormat = (
   value: number,
   minimumFractionDigits: number = 0,
-  maximumFractionDigits: number = 0
+  maximumFractionDigits: number = 0,
+  display: 'symbol' | 'code' = 'symbol'
 ) => {
   const formattedValue = new Intl.NumberFormat('es-CO', {
     style: 'currency',
     currency: 'COP',
+    currencyDisplay: display,
     minimumFractionDigits,
     maximumFractionDigits,
   }).format(value);
 
-  return formattedValue
+  return formattedValue;
 };
 
 export const calculateProgressPercentage = (projectValueActual: bigint, projectValueTotal: bigint): number => {
   if (projectValueTotal === BigInt(0)) {
-    return 0; 
+    return 0;
   }
   return Number((projectValueActual * BigInt(100)) / projectValueTotal);
+};
+
+export const formatNumberWithDots = (value: number | bigint): string => {
+  return value.toLocaleString('es-CO');
 };

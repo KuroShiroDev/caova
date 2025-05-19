@@ -1,9 +1,8 @@
 'use server';
-import { PrismaClient, Project } from '@prisma/client';
+import { Project } from '@prisma/client';
 import { getUser, verifyAdmin } from './auth';
 import { ProjectFormValues, ProjectWithInvestmentsAndUsers, IProject } from '@/interfaces/project.interface';
-
-const prisma = new PrismaClient();
+import { prisma } from './prisma';
 
 interface GetProjectsArgs {
   page?: number;

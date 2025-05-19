@@ -1,9 +1,9 @@
 'use server';
 
-import { PrismaClient, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import { verifyAdmin } from './auth';
+import { prisma } from './prisma';
 
-const prisma = new PrismaClient();
 export const getUsers = async ({ page = 1, limit = 10, filters }): Promise<{ users: User[]; total: number }> => {
   const isAdmin = await verifyAdmin();
   if (!isAdmin) {

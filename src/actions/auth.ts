@@ -1,9 +1,7 @@
 'use server';
 
 import { auth, currentUser } from '@clerk/nextjs/server';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from './prisma';
 
 export const isLogged = async () => {
   const { userId } = auth();
@@ -45,6 +43,11 @@ export const handleUserLogin = async () => {
         userId,
         email: user.emailAddresses[0].emailAddress ?? '',
         name: user.fullName ?? '',
+        Wallet: {
+          create: {
+            balance: 0,
+          },
+        },
       },
     });
   }
@@ -62,6 +65,9 @@ export const getUser = async () => {
   return prisma.user.findUnique({
     where: {
       userId,
+    },
+    include: {
+      Wallet: true,
     },
   });
 };

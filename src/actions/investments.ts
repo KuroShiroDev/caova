@@ -1,11 +1,10 @@
 'use server';
 
-import { PrismaClient } from '@prisma/client';
 import { verifyAdmin } from './auth';
 import { GetAdminInvestments, InvestmentWithUser } from '@/interfaces/investment.interface';
 import { getOneProjectBasic } from './projects';
-
-const prisma = new PrismaClient();
+import { validateWalletBalance } from './wallets';
+import { prisma } from './prisma';
 
 export const getInvestments = async ({
   page = 1,
@@ -97,4 +96,69 @@ export const getInvestmentsByProjectId = async ({ projectId }: { projectId: numb
     console.error(error);
     throw new Error('Error fetching investments');
   }
+};
+
+export const confirmInvestmentTransaction = async ({
+  userId,
+  walletId,
+  projectId,
+  amount,
+}: {
+  userId: string;
+  walletId: number;
+  projectId: number;
+  amount: number;
+}) => {
+  return await prisma.$transaction(async (prisma) => {
+    await validateWalletBalance(userId, amount);
+
+    // Crear la inversión
+    const investment = await prisma.investment.create({
+      data: {
+        userId,
+        projectId,
+        amount,
+      },
+    });
+
+    // Registrar la transacción
+    const transaction = await prisma.transaction.create({
+      data: {
+        walletId,
+        amount,
+        type: 'SPEND',
+        investmentId: investment.investmentId,
+        status: 'PENDING',
+      },
+    });
+
+    // Actualizar el saldo de la wallet
+    await prisma.wallet.update({
+      where: { walletId },
+      data: {
+        balance: {
+          decrement: amount,
+        },
+      },
+    });
+
+    // Actualizar el progreso del proyecto
+    await prisma.project.update({
+      where: { projectId },
+      data: {
+        projectValueActual: {
+          increment: amount,
+        },
+      },
+    });
+
+    await prisma.transaction.update({
+      where: { transactionId: transaction.transactionId },
+      data: {
+        status: 'APPROVED',
+      },
+    });
+
+    return transaction;
+  });
 };
