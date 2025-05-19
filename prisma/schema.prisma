@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  // directUrl = env("DIRECT_DATABASE_URL")
 }
 
 model User {
@@ -68,25 +69,26 @@ model Project {
 
 model Transaction {
   amount        BigInt
-  createdAt     DateTime        @default(now())
-  transactionId Int             @id @default(autoincrement())
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  transactionId Int               @id @default(autoincrement())
   type          TransactionType
-  wallet        Wallet          @relation(fields: [walletId], references: [walletId])
+  wallet        Wallet            @relation(fields: [walletId], references: [walletId])
   walletId      Int
   investmentId  Int?
-  investment    Investment?     @relation(fields: [investmentId], references: [investmentId])
+  investment    Investment?       @relation(fields: [investmentId], references: [investmentId])
+  status        TransactionStatus @default(PENDING)
 }
 
 model Investment {
-  amount             BigInt
-  transaction_status String
-  createdAt          DateTime      @default(now())
-  investmentId       Int           @id @default(autoincrement())
-  userId             String
-  projectId          Int
-  project            Project       @relation(fields: [projectId], references: [projectId])
-  user               User          @relation(fields: [userId], references: [userId])
-  Transaction        Transaction[]
+  amount       BigInt
+  createdAt    DateTime      @default(now())
+  investmentId Int           @id @default(autoincrement())
+  userId       String
+  projectId    Int
+  project      Project       @relation(fields: [projectId], references: [projectId])
+  user         User          @relation(fields: [userId], references: [userId])
+  Transaction  Transaction[]
 
   @@map("Investement")
 }
@@ -115,4 +117,11 @@ enum TransactionType {
   RECHARGE
   SPEND
   WITHDRAWAL
+}
+
+enum TransactionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
 }
