@@ -24,7 +24,6 @@ export function ProjectInvesmentDialog({ project }: Props) {
             <p>Id</p>
             <p>Inversionista</p>
             <p>Correo</p>
-            <p>Estatus</p>
             <p>Monto</p>
           </div>
           {investments.map((investment) => (
@@ -32,7 +31,6 @@ export function ProjectInvesmentDialog({ project }: Props) {
               <p>{investment.investmentId}</p>
               <p>{investment.user.name}</p>
               <p>{investment.user.email}</p>
-              <p>{investment.transaction_status}</p>
               <p>{investment.amount.toLocaleString()} COP</p>
             </div>
           ))}
