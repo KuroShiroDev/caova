@@ -2,7 +2,6 @@ import { getUser } from '@/actions/auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardTitle, CardContent } from '@/components/ui/card';
-import { currencyFormat } from '@/lib/utils';
 import { currentUser } from '@clerk/nextjs/server';
 import Link from 'next/link';
 
