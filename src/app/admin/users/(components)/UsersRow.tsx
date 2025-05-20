@@ -1,12 +1,12 @@
 import { TableCell, TableRow } from '@/components/ui/table';
-import { User } from '@prisma/client';
+import { User, Wallet } from '@prisma/client';
 import React from 'react';
 
 interface Props {
-  user: User;
+  user: User & { Wallet: Wallet };
 }
 const UsersRow = ({ user }: Props) => {
-  const userCashAmount = user.cashAmount ? user.cashAmount?.toLocaleString() : '0';
+  const userCashAmount = user ? user.Wallet.balance?.toLocaleString() : '0';
   return (
     <TableRow>
       <TableCell className="font-medium">{user.userId}</TableCell>
