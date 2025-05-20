@@ -89,8 +89,6 @@ model Investment {
   project      Project       @relation(fields: [projectId], references: [projectId])
   user         User          @relation(fields: [userId], references: [userId])
   Transaction  Transaction[]
-
-  @@map("Investement")
 }
 
 model Wallet {

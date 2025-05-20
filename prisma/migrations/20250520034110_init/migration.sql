@@ -7,6 +7,9 @@ CREATE TYPE "PropertyType" AS ENUM ('viviendaDeInteresSocial', 'viviendaDeIntere
 -- CreateEnum
 CREATE TYPE "TransactionType" AS ENUM ('RECHARGE', 'SPEND', 'WITHDRAWAL');
 
+-- CreateEnum
+CREATE TYPE "TransactionStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED', 'CANCELLED');
+
 -- CreateTable
 CREATE TABLE "User" (
     "name" TEXT NOT NULL,
@@ -73,24 +76,25 @@ CREATE TABLE "Project" (
 CREATE TABLE "Transaction" (
     "amount" BIGINT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "transactionId" SERIAL NOT NULL,
     "type" "TransactionType" NOT NULL,
     "walletId" INTEGER NOT NULL,
     "investmentId" INTEGER,
+    "status" "TransactionStatus" NOT NULL DEFAULT 'PENDING',
 
     CONSTRAINT "Transaction_pkey" PRIMARY KEY ("transactionId")
 );
 
 -- CreateTable
-CREATE TABLE "Investement" (
+CREATE TABLE "Investment" (
     "amount" BIGINT NOT NULL,
-    "transaction_status" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "investmentId" SERIAL NOT NULL,
     "userId" TEXT NOT NULL,
     "projectId" INTEGER NOT NULL,
 
-    CONSTRAINT "Investement_pkey" PRIMARY KEY ("investmentId")
+    CONSTRAINT "Investment_pkey" PRIMARY KEY ("investmentId")
 );
 
 -- CreateTable
@@ -117,13 +121,13 @@ CREATE UNIQUE INDEX "Wallet_userId_key" ON "Wallet"("userId");
 ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_walletId_fkey" FOREIGN KEY ("walletId") REFERENCES "Wallet"("walletId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_investmentId_fkey" FOREIGN KEY ("investmentId") REFERENCES "Investement"("investmentId") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_investmentId_fkey" FOREIGN KEY ("investmentId") REFERENCES "Investment"("investmentId") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Investement" ADD CONSTRAINT "Investement_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("projectId") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Investment" ADD CONSTRAINT "Investment_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("projectId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Investement" ADD CONSTRAINT "Investement_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Investment" ADD CONSTRAINT "Investment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Wallet" ADD CONSTRAINT "Wallet_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
