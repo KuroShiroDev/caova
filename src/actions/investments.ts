@@ -43,7 +43,6 @@ export const getInvestments = async ({
 
   let investments;
   let total;
-  console.log(filters);
   if (filters) {
     investments = await prisma.investment.findMany({
       include: {

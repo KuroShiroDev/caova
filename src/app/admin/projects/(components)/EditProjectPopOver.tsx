@@ -22,6 +22,9 @@ const EditProjectPopOver = ({ id }: Props) => {
           <Link href={`/admin/projects/${id}/info`}>
             <Button>Info</Button>
           </Link>
+          <Link href={`/admin/projects/${id}/files`}>
+            <Button>Archivos</Button>
+          </Link>
         </div>
       </PopoverContent>
     </Popover>

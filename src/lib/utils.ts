@@ -54,6 +54,22 @@ export const calculateProgressPercentage = (projectValueActual: bigint, projectV
   return Number((projectValueActual * BigInt(100)) / projectValueTotal);
 };
 
+export const getFilenameFromUrl = (url: string): string => {
+  if (!url) return '';
+
+  const parts = url.split('/');
+  return parts[parts.length - 1] || '';
+};
+
+export const getReadableFilename = (filename: string): string => {
+  const match = filename.match(/^(cavoa-\d+)-/);
+  if (match) {
+    return match[1].replace(/-/g, ' ');
+  }
+
+  return filename;
+};
+
 export const formatNumberWithDots = (value: number | bigint): string => {
   return value.toLocaleString('es-CO');
 };

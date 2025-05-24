@@ -3,7 +3,7 @@ import { Progress } from '@radix-ui/react-progress';
 import { PieChartIcon, TrendingUpIcon, FileTextIcon } from 'lucide-react';
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../ui/card';
-import { IProject } from '@/interfaces/project.interface';
+import { IProject, ProjectDocument } from '@/interfaces/project.interface';
 
 interface ProjectFinancialProps {
   projectData: IProject;
@@ -148,11 +148,11 @@ export default function ProjectFinancial({ projectData }: ProjectFinancialProps)
               <h3 className="text-sm font-medium mb-3">Documentos del Proyecto</h3>
               <div className="space-y-2">
                 {Array.isArray(projectData.documents) &&
-                  projectData.documents.map((doc, index) => (
+                  (projectData.documents as unknown as ProjectDocument[]).map((doc, index) => (
                     <div key={index} className="flex items-center p-2 bg-muted/30 rounded-lg">
                       <FileTextIcon className="mr-2 h-4 w-4 text-primary" />
-                      <a href={doc} className="text-primary hover:underline">
-                        Documento {index + 1}
+                      <a href={doc.url} className="text-primary hover:underline">
+                        {doc.name}
                       </a>
                     </div>
                   ))}

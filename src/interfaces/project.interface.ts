@@ -42,3 +42,10 @@ export interface ProjectWithInvestmentsAndUsers extends Project {
 export interface IProject extends Project {
   totalInvestmentAmount?: number;
 }
+
+export interface ProjectDocument {
+  name: string;
+  url: string;
+}
+
+export type ProjectDocuments = ProjectDocument[];

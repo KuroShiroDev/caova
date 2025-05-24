@@ -1,7 +1,7 @@
 'use server';
-import { Project } from '@prisma/client';
+import { Prisma, Project } from '@prisma/client';
 import { getUser, verifyAdmin } from './auth';
-import { ProjectFormValues, ProjectWithInvestmentsAndUsers, IProject } from '@/interfaces/project.interface';
+import { ProjectFormValues, ProjectWithInvestmentsAndUsers, IProject, ProjectDocuments } from '@/interfaces/project.interface';
 import { prisma } from './prisma';
 
 interface GetProjectsArgs {
@@ -115,38 +115,120 @@ export const updateProject = async (projectId: number, values: ProjectFormValues
   return project;
 };
 
-// PROJECT MEDIA
+// PROJECT STORAGE
 
-export const addMediaToProject = async (projectId: number, urls: string[]) => {
+const _addItemsToProjectField = async (
+  projectId: number,
+  items: string[] | { [key: string]: string }[],
+  field: 'media' | 'documents'
+) => {
   await verifyAdmin();
   const project = await getOneProjectBasic(projectId);
+
+  const currentItems = (project[field] as string[]) || [];
 
   const updatedProject = await prisma.project.update({
     where: {
       projectId: projectId,
     },
     data: {
-      media: [...urls, ...project.media],
+      [field]: [...items, ...currentItems],
     },
   });
 
   return updatedProject;
 };
 
-export const removeMediaFromProject = async (projectId: number, urls: string[]): Promise<Project> => {
+export const _removeItemsFromProjectField = async (
+  projectId: number,
+  items: string[],
+  field: 'media' | 'documents'
+): Promise<Project> => {
   await verifyAdmin();
   const project = await getOneProjectBasic(projectId);
+
+  let newFilesArr: string[] | ProjectDocuments = [];
+  if (field === 'documents') {
+    newFilesArr = (project.documents as unknown as ProjectDocuments).filter((document) => !items.includes(document.url));
+  } else if (field === 'media') {
+    newFilesArr = project.media.filter((item) => !items.includes(item));
+  }
 
   const updatedProject = await prisma.project.update({
     where: {
       projectId: projectId,
     },
     data: {
-      media: project.media.filter((media) => !urls.includes(media)),
+      [field]: newFilesArr,
     },
   });
 
   return updatedProject;
+};
+
+// PROJECT MEDIA
+
+export const addMediaToProject = async (projectId: number, urls: string[]) => {
+  return _addItemsToProjectField(projectId, urls, 'media');
+};
+
+export const removeMediaFromProject = async (projectId: number, urls: string[]): Promise<Project> => {
+  return _removeItemsFromProjectField(projectId, urls, 'media');
+};
+
+// PROJECT DOCUMENTS
+
+export const addFilesToProject = async (projectId: number, urls: string[] | { [key: string]: string }[]) => {
+  return _addItemsToProjectField(projectId, urls, 'documents');
+};
+
+export const removeFilesFromProject = async (projectId: number, urls: string[]): Promise<Project> => {
+  return _removeItemsFromProjectField(projectId, urls, 'documents');
+};
+
+export const updateDocumentName = async (projectId: number, oldName: string, newName: string): Promise<Project> => {
+  await verifyAdmin();
+  try {
+    await verifyAdmin();
+    const project = await getOneProjectBasic(projectId);
+    const currentDocuments = (project.documents as unknown as ProjectDocuments) || [];
+
+    const documentToUpdate = currentDocuments.find((doc) => doc.name === oldName);
+    if (!documentToUpdate) {
+      throw new Error(`File "${oldName}" not found in project documents`);
+    }
+
+    const updatedDocuments: ProjectDocuments = currentDocuments.map((doc) => {
+      if (doc.name === oldName) {
+        return {
+          name: newName,
+          url: doc.url,
+        };
+      }
+      return doc;
+    });
+
+    const prismaJsonDocuments = updatedDocuments as unknown as Prisma.InputJsonValue[];
+
+    const updatedProject = await prisma.project.update({
+      where: {
+        projectId: projectId,
+      },
+      data: {
+        documents: prismaJsonDocuments,
+      },
+    });
+
+    return updatedProject;
+  } catch (error) {
+    console.error('Error updating filename:', error);
+
+    if (error instanceof Error) {
+      throw error;
+    } else {
+      throw new Error('Failed to update filename');
+    }
+  }
 };
 
 export const getProjectsByUser = async (page = 1, limit = 10): Promise<IProject[]> => {
