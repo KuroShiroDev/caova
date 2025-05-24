@@ -32,7 +32,7 @@ model Project {
   projectValueTotal             BigInt?
   projectValueActual            BigInt?
   media                         String[]
-  documents                     String[]
+  documents                     Json[]
   createdAt                     DateTime     @default(now())
   updatedAt                     DateTime     @updatedAt
   accountServicesCost           BigInt?

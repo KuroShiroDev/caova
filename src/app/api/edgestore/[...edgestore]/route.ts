@@ -8,6 +8,11 @@ const edgestoreRouter = es.router({
   cavoaProjects: es.imageBucket().beforeDelete(({ ctx, fileInfo }) => {
     return true;
   }),
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  cavoaDocuments: es.fileBucket().beforeDelete(({ ctx, fileInfo }) => {
+    return true;
+  }),
 });
 
 const handler = createEdgeStoreNextHandler({

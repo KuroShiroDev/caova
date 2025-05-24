@@ -1,6 +1,7 @@
 import { getUser } from '@/actions/auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardTitle, CardContent } from '@/components/ui/card';
+import { currencyFormat } from '@/lib/utils';
 import { currentUser } from '@clerk/nextjs/server';
 
 export const UserInfoCard = async () => {
@@ -21,7 +22,9 @@ export const UserInfoCard = async () => {
         </div>
 
         <div className="flex items-center gap-2 mt-4 ml-0 md:mt-0 md:ml-auto">
-          <span className="font-bold text-4xl text-primary font-poppins">0</span>
+          <span className="font-bold text-4xl text-primary font-poppins">
+            {currencyFormat(Number(user?.Wallet?.balance ?? 0))}
+          </span>
         </div>
       </CardContent>
     </Card>

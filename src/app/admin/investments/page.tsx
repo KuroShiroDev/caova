@@ -11,7 +11,6 @@ export default function AdminInvestmentsPage() {
     return <PageLoader />;
   }
 
-  console.log('Loading');
   return (
     <div className="min-h-content">
       <InvestmentFilters />

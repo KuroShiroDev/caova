@@ -63,5 +63,3 @@ const ProjectMedia = ({ project, setProject }: Props) => {
 };
 
 export default ProjectMedia;
-
-//TODO: Delete this todo.
