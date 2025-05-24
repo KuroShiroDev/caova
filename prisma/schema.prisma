@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  // directUrl = env("DIRECT_DATABASE_URL")
 }
 
 model User {
@@ -31,7 +32,7 @@ model Project {
   projectValueTotal             BigInt?
   projectValueActual            BigInt?
   media                         String[]
-  documents                     String[]
+  documents                     Json[]
   createdAt                     DateTime     @default(now())
   updatedAt                     DateTime     @updatedAt
   accountServicesCost           BigInt?

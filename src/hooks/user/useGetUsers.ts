@@ -1,11 +1,11 @@
 import { getUsers } from '@/actions/users';
-import { User } from '@prisma/client';
+import { UserWithWallet } from '@/interfaces/user.interface';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
 interface Users {
   total: number;
-  users: User[];
+  users: UserWithWallet[];
 }
 
 const useGetUsers = () => {
