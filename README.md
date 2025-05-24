@@ -63,7 +63,7 @@ Antes de comenzar, asegúrate de tener instalados los siguientes programas:
 Inicia el servidor de desarrollo con el siguiente comando:
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver la aplicación en funcionamiento.

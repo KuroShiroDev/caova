@@ -8,6 +8,8 @@ datasource db {
   // directUrl = env("DIRECT_DATABASE_URL")
 }
 
+//TODO: Mirar si cambiamos los ids por otro tipo de id, como el uuid o el nanoid
+
 model User {
   name                  String
   email                 String       @unique
@@ -68,16 +70,19 @@ model Project {
 }
 
 model Transaction {
-  amount        BigInt
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt
-  transactionId Int               @id @default(autoincrement())
-  type          TransactionType
-  wallet        Wallet            @relation(fields: [walletId], references: [walletId])
-  walletId      Int
-  investmentId  Int?
-  investment    Investment?       @relation(fields: [investmentId], references: [investmentId])
-  status        TransactionStatus @default(PENDING)
+  amount            BigInt
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  transactionId     Int               @id @default(autoincrement())
+  type              TransactionType
+  wallet            Wallet            @relation(fields: [walletId], references: [walletId])
+  walletId          Int
+  paymentMethodType String?
+  investmentId      Int?
+  reference         String?           @unique
+  externalId        String?           @unique
+  investment        Investment?       @relation(fields: [investmentId], references: [investmentId])
+  status            TransactionStatus @default(PENDING)
 }
 
 model Investment {
@@ -120,6 +125,7 @@ enum TransactionType {
 enum TransactionStatus {
   PENDING
   APPROVED
-  REJECTED
-  CANCELLED
+  VOIDED
+  DECLINED
+  ERROR
 }

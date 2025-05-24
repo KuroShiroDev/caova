@@ -15,6 +15,14 @@ export const formatDate = (value: Date) => {
   return value;
 };
 
+export const formatDateTime = (value: Date) => {
+  if (!(value instanceof Date)) return value;
+  return value.toLocaleTimeString('es-CO', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};
+
 export const generateLink = (url: string, params: Record<string, any>) => {
   const queryString = Object.keys(params)
     .map((key) => `${key}=${params[key]}`)

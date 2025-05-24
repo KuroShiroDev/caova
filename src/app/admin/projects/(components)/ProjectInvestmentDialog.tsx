@@ -9,7 +9,7 @@ export function ProjectInvesmentDialog({ project }: Props) {
   const investments = project.Investment;
   return (
     <Dialog>
-      <DialogTrigger className="w-[100%] h-[100%] flex justify-center items-center justify-center" asChild>
+      <DialogTrigger className="w-[100%] h-[100%] flex justify-center items-center" asChild>
         <button className="m-auto" disabled={investments.length === 0}>
           <span className="mr-2">{investments.length} </span>
           {investments.length > 0 && <IoMdEye size={16} />}
