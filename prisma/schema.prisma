@@ -22,7 +22,7 @@ model User {
   idNumber              String?
   idType                String       @default("cedula")
   phoneNumber           String?
-  userId                String       @id
+  userId                String       @id @default(uuid())
   Investment            Investment[]
   Wallet                Wallet?
 }
@@ -64,7 +64,7 @@ model Project {
   totalPropertyCost             BigInt?
   transactionCost               BigInt?
   status                        String       @default("inactivo")
-  projectId                     Int          @id @default(autoincrement())
+  projectId                     String       @id @default(uuid())
   minInvestmentAmount           Int
   Investment                    Investment[]
 }
@@ -73,12 +73,12 @@ model Transaction {
   amount            BigInt
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
-  transactionId     Int               @id @default(autoincrement())
+  transactionId     String            @id @default(uuid())
   type              TransactionType
   wallet            Wallet            @relation(fields: [walletId], references: [walletId])
-  walletId          Int
+  walletId          String
   paymentMethodType String?
-  investmentId      Int?
+  investmentId      String?
   reference         String?           @unique
   externalId        String?           @unique
   investment        Investment?       @relation(fields: [investmentId], references: [investmentId])
@@ -88,16 +88,16 @@ model Transaction {
 model Investment {
   amount       BigInt
   createdAt    DateTime      @default(now())
-  investmentId Int           @id @default(autoincrement())
+  investmentId String        @id @default(uuid())
   userId       String
-  projectId    Int
+  projectId    String
   project      Project       @relation(fields: [projectId], references: [projectId])
   user         User          @relation(fields: [userId], references: [userId])
   Transaction  Transaction[]
 }
 
 model Wallet {
-  walletId     Int           @id @default(autoincrement())
+  walletId     String        @id @default(uuid())
   userId       String        @unique
   balance      BigInt        @default(0)
   createdAt    DateTime      @default(now())

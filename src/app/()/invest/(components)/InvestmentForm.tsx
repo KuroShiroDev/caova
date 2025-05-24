@@ -13,8 +13,8 @@ interface InvestmentFormProps {
   maxInvestmentAmount: number;
   rentalYieldsAnnualCash: number;
   userId: string;
-  walletId: number;
-  projectId: number;
+  walletId: string;
+  projectId: string;
 }
 
 export default function InvestmentForm({

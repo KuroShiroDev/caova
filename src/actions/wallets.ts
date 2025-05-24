@@ -16,7 +16,7 @@ export const validateWalletBalance = async (userId: string, investmentAmount: nu
   return true;
 };
 
-export const getWalletId = async (userId: string): Promise<number | null> => {
+export const getWalletId = async (userId: string): Promise<string | null> => {
   const wallet = await prisma.wallet.findUnique({
     where: { userId },
   });

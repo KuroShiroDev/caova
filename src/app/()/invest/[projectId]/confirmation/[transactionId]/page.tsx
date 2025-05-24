@@ -7,7 +7,7 @@ import { getTransactionById } from '@/actions/transactions';
 import { currencyFormat } from '@/lib/utils';
 
 export default async function ConfirmacionPage({ params }: { params: { transactionId: string } }) {
-  const transaction = await getTransactionById(Number(params.transactionId));
+  const transaction = await getTransactionById(params.transactionId);
 
   return (
     <MaxWidthWrapper className="mx-auto max-w-xl">

@@ -10,7 +10,7 @@ import InvestmentForm from '../(components)/InvestmentForm';
 import { CURRENCY } from '@/config/currency';
 
 export default async function InvestPage({ params }: { params: { projectId: string } }) {
-  const project = await getOneProjectBasic(parseInt(params.projectId));
+  const project = await getOneProjectBasic(params.projectId);
   const user = await getUser();
 
   if (!user) {
@@ -83,7 +83,7 @@ export default async function InvestPage({ params }: { params: { projectId: stri
             rentalYieldsAnnualCash={project.rentalYieldsAnnualCash!}
             projectId={project.projectId}
             userId={user.userId}
-            walletId={user.Wallet?.walletId ?? 0}
+            walletId={user.Wallet?.walletId ?? ''}
           />
         </CardContent>
       </Card>

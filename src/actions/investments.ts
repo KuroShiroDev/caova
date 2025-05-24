@@ -70,7 +70,7 @@ export const getInvestments = async ({
   return { investments, total };
 };
 
-export const getInvestmentsByProjectId = async ({ projectId }: { projectId: number }): Promise<InvestmentWithUser[]> => {
+export const getInvestmentsByProjectId = async ({ projectId }: { projectId: string }): Promise<InvestmentWithUser[]> => {
   const isAdmin = await verifyAdmin();
   if (!isAdmin) {
     throw new Error('Unauthorized');
@@ -104,8 +104,8 @@ export const confirmInvestmentTransaction = async ({
   amount,
 }: {
   userId: string;
-  walletId: number;
-  projectId: number;
+  walletId: string;
+  projectId: string;
   amount: number;
 }) => {
   return await prisma.$transaction(async (prisma) => {

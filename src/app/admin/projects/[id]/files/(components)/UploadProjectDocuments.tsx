@@ -36,7 +36,10 @@ export default function UploadProjectDocuments({ setProject }: Props) {
       }
     }
     try {
-      const project = await addFilesToProject(Number(params.id), urls);
+      const project = await addFilesToProject(
+        Array.isArray(params.id) ? params.id[0] : params.id,
+        urls
+      );
       toast({
         title: 'Documentos actualizados!',
         description: 'Los documentos se han actualizado correctamente',

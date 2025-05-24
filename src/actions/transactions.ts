@@ -4,7 +4,7 @@ import { auth } from '@clerk/nextjs/server';
 import { getWalletId } from './wallets';
 import { Transaction, TransactionStatus } from '@prisma/client';
 
-export const getTransactionById = async (transactionId: number) => {
+export const getTransactionById = async (transactionId: string) => {
   const { userId } = auth();
 
   if (!userId) {
