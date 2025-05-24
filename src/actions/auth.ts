@@ -1,7 +1,7 @@
 'use server';
 
-import prisma from '@/lib/prisma';
 import { auth, currentUser } from '@clerk/nextjs/server';
+import { prisma } from './prisma';
 
 export const isLogged = async () => {
   const { userId } = auth();
@@ -43,6 +43,11 @@ export const handleUserLogin = async () => {
         userId,
         email: user.emailAddresses[0].emailAddress ?? '',
         name: user.fullName ?? '',
+        Wallet: {
+          create: {
+            balance: 0,
+          },
+        },
       },
     });
   }

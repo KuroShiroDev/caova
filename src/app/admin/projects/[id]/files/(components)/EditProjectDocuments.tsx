@@ -6,7 +6,8 @@ import ProjectDocuments from './ProjectDocuments';
 
 const EditProjectDocuments = () => {
   const params = useParams();
-  const { project, setProject } = useGetProject({ id: Number(params.id) });
+  const id = Array.isArray(params.id) ? params.id[0] : params.id;
+  const { project, setProject } = useGetProject({ id });
   return (
     <>
       <h2 className="title">Documentos | Proyecto ID #{params.id}</h2>

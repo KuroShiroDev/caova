@@ -5,7 +5,7 @@ import { getProjectByUser } from '@/actions/projects';
 
 interface ProductUserDetailPageProps {
   params: {
-    id: number;
+    id: string;
   };
 }
 

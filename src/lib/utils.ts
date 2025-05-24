@@ -15,6 +15,14 @@ export const formatDate = (value: Date) => {
   return value;
 };
 
+export const formatDateTime = (value: Date) => {
+  if (!(value instanceof Date)) return value;
+  return value.toLocaleTimeString('es-CO', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};
+
 export const generateLink = (url: string, params: Record<string, any>) => {
   const queryString = Object.keys(params)
     .map((key) => `${key}=${params[key]}`)
@@ -22,10 +30,16 @@ export const generateLink = (url: string, params: Record<string, any>) => {
   return `${url}?${queryString}`;
 };
 
-export const currencyFormat = (value: number, minimumFractionDigits: number = 0, maximumFractionDigits: number = 0) => {
+export const currencyFormat = (
+  value: number,
+  minimumFractionDigits: number = 0,
+  maximumFractionDigits: number = 0,
+  display: 'symbol' | 'code' = 'symbol'
+) => {
   const formattedValue = new Intl.NumberFormat('es-CO', {
     style: 'currency',
     currency: 'COP',
+    currencyDisplay: display,
     minimumFractionDigits,
     maximumFractionDigits,
   }).format(value);
@@ -54,4 +68,8 @@ export const getReadableFilename = (filename: string): string => {
   }
 
   return filename;
+};
+
+export const formatNumberWithDots = (value: number | bigint): string => {
+  return value.toLocaleString('es-CO');
 };

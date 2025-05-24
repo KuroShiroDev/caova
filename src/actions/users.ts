@@ -1,10 +1,9 @@
 'use server';
 
-import { PrismaClient } from '@prisma/client';
+import { prisma } from './prisma';
 import { verifyAdmin } from './auth';
 import { UserWithWallet } from '@/interfaces/user.interface';
 
-const prisma = new PrismaClient();
 export const getUsers = async ({ page = 1, limit = 10, filters }): Promise<{ users: UserWithWallet[]; total: number }> => {
   const isAdmin = await verifyAdmin();
   if (!isAdmin) {
@@ -56,6 +55,9 @@ export const getUsers = async ({ page = 1, limit = 10, filters }): Promise<{ use
     users = await prisma.user.findMany({
       skip: (page - 1) * limit,
       take: limit,
+      include: {
+        Wallet: true,
+      },
     });
     total = await prisma.user.count();
   }

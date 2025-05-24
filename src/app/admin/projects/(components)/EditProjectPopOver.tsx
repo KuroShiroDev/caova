@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { MdEdit } from 'react-icons/md';
 
 type Props = {
-  id: number;
+  id: string;
 };
 
 const EditProjectPopOver = ({ id }: Props) => {

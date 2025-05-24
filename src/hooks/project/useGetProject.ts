@@ -3,7 +3,7 @@ import { getOneProjectBasic } from '@/actions/projects';
 import { Project } from '@prisma/client';
 
 interface Props {
-  id: number;
+  id: string;
 }
 
 const useGetProject = ({ id }: Props) => {

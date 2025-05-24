@@ -3,7 +3,7 @@ import { InvestmentWithUser } from '@/interfaces/investment.interface';
 import { useEffect, useState } from 'react';
 
 interface Props {
-  projectId: number;
+  projectId: string;
 }
 
 const useGetInvestmentsByProject = ({ projectId }: Props) => {

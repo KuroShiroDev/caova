@@ -1,9 +1,8 @@
 'use server';
-import { Prisma, PrismaClient, Project } from '@prisma/client';
+import { Prisma, Project } from '@prisma/client';
 import { getUser, verifyAdmin } from './auth';
 import { ProjectFormValues, ProjectWithInvestmentsAndUsers, IProject, ProjectDocuments } from '@/interfaces/project.interface';
-
-const prisma = new PrismaClient();
+import { prisma } from './prisma';
 
 interface GetProjectsArgs {
   page?: number;
@@ -93,7 +92,7 @@ export const getProjects = async ({
   return { projects, total };
 };
 
-export const getOneProjectBasic = async (projectId: number): Promise<Project> => {
+export const getOneProjectBasic = async (projectId: string): Promise<Project> => {
   const project = await prisma.project.findUnique({
     where: {
       projectId,
@@ -105,7 +104,7 @@ export const getOneProjectBasic = async (projectId: number): Promise<Project> =>
   return project;
 };
 
-export const updateProject = async (projectId: number, values: ProjectFormValues): Promise<Project> => {
+export const updateProject = async (projectId: string, values: ProjectFormValues): Promise<Project> => {
   await verifyAdmin();
   const project = await prisma.project.update({
     where: {
@@ -119,7 +118,7 @@ export const updateProject = async (projectId: number, values: ProjectFormValues
 // PROJECT STORAGE
 
 const _addItemsToProjectField = async (
-  projectId: number,
+  projectId: string,
   items: string[] | { [key: string]: string }[],
   field: 'media' | 'documents'
 ) => {
@@ -141,7 +140,7 @@ const _addItemsToProjectField = async (
 };
 
 export const _removeItemsFromProjectField = async (
-  projectId: number,
+  projectId: string,
   items: string[],
   field: 'media' | 'documents'
 ): Promise<Project> => {
@@ -169,25 +168,25 @@ export const _removeItemsFromProjectField = async (
 
 // PROJECT MEDIA
 
-export const addMediaToProject = async (projectId: number, urls: string[]) => {
+export const addMediaToProject = async (projectId: string, urls: string[]) => {
   return _addItemsToProjectField(projectId, urls, 'media');
 };
 
-export const removeMediaFromProject = async (projectId: number, urls: string[]): Promise<Project> => {
+export const removeMediaFromProject = async (projectId: string, urls: string[]): Promise<Project> => {
   return _removeItemsFromProjectField(projectId, urls, 'media');
 };
 
 // PROJECT DOCUMENTS
 
-export const addFilesToProject = async (projectId: number, urls: string[] | { [key: string]: string }[]) => {
+export const addFilesToProject = async (projectId: string, urls: string[] | { [key: string]: string }[]) => {
   return _addItemsToProjectField(projectId, urls, 'documents');
 };
 
-export const removeFilesFromProject = async (projectId: number, urls: string[]): Promise<Project> => {
+export const removeFilesFromProject = async (projectId: string, urls: string[]): Promise<Project> => {
   return _removeItemsFromProjectField(projectId, urls, 'documents');
 };
 
-export const updateDocumentName = async (projectId: number, oldName: string, newName: string): Promise<Project> => {
+export const updateDocumentName = async (projectId: string, oldName: string, newName: string): Promise<Project> => {
   await verifyAdmin();
   try {
     await verifyAdmin();
@@ -271,7 +270,7 @@ export const getProjectsByUser = async (page = 1, limit = 10): Promise<IProject[
   return projectsWithInvestmentSum;
 };
 
-export const getProjectByUser = async (projectId: number): Promise<IProject> => {
+export const getProjectByUser = async (projectId: string): Promise<IProject> => {
   const user = await getUser();
   if (!user) {
     throw new Error('Unauthorized or user not found');
@@ -279,7 +278,7 @@ export const getProjectByUser = async (projectId: number): Promise<IProject> => 
 
   const project = await prisma.project.findUnique({
     where: {
-      projectId: Number(projectId),
+      projectId: projectId,
     },
   });
 
@@ -292,7 +291,7 @@ export const getProjectByUser = async (projectId: number): Promise<IProject> => 
       amount: true,
     },
     where: {
-      projectId: Number(projectId),
+      projectId: projectId,
       userId: user.userId,
     },
   });
@@ -303,10 +302,10 @@ export const getProjectByUser = async (projectId: number): Promise<IProject> => 
   };
 };
 
-export const getProjectById = async (projectId: number): Promise<Project> => {
+export const getProjectById = async (projectId: string): Promise<Project> => {
   const project = await prisma.project.findUnique({
     where: {
-      projectId: Number(projectId),
+      projectId: projectId,
     },
   });
 

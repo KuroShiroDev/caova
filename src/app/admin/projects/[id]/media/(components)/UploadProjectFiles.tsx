@@ -37,7 +37,10 @@ export default function UploadProjectFiles({ setProject }: Props) {
       }
     }
     try {
-      const project = await addMediaToProject(Number(params.id), urls);
+      const project = await addMediaToProject(
+        Array.isArray(params.id) ? params.id[0] : params.id,
+        urls
+      );
       toast({
         title: 'Media actualizada!',
         description: 'Las imagenes se han actualizado exitosamente',

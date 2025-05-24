@@ -6,7 +6,7 @@ import { LoaderIcon } from 'lucide-react';
 
 export default function EditProjectPage() {
   const params = useParams();
-  const { project } = useGetProject({ id: Number(params.id) });
+  const { project } = useGetProject({ id: params.id as string });
   if (!project) {
     return <LoaderIcon className="animate-spin mr-2" />;
   }

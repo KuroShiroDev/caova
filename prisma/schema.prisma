@@ -8,6 +8,8 @@ datasource db {
   // directUrl = env("DIRECT_DATABASE_URL")
 }
 
+//TODO: Mirar si cambiamos los ids por otro tipo de id, como el uuid o el nanoid
+
 model User {
   name                  String
   email                 String       @unique
@@ -20,7 +22,7 @@ model User {
   idNumber              String?
   idType                String       @default("cedula")
   phoneNumber           String?
-  userId                String       @id
+  userId                String       @id @default(uuid())
   Investment            Investment[]
   Wallet                Wallet?
 }
@@ -62,38 +64,40 @@ model Project {
   totalPropertyCost             BigInt?
   transactionCost               BigInt?
   status                        String       @default("inactivo")
-  projectId                     Int          @id @default(autoincrement())
+  projectId                     String       @id @default(uuid())
   minInvestmentAmount           Int
   Investment                    Investment[]
 }
 
 model Transaction {
-  amount        BigInt
-  createdAt     DateTime        @default(now())
-  transactionId Int             @id @default(autoincrement())
-  type          TransactionType
-  wallet        Wallet          @relation(fields: [walletId], references: [walletId])
-  walletId      Int
-  investmentId  Int?
-  investment    Investment?     @relation(fields: [investmentId], references: [investmentId])
+  amount            BigInt
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  transactionId     String            @id @default(uuid())
+  type              TransactionType
+  wallet            Wallet            @relation(fields: [walletId], references: [walletId])
+  walletId          String
+  paymentMethodType String?
+  investmentId      String?
+  reference         String?           @unique
+  externalId        String?           @unique
+  investment        Investment?       @relation(fields: [investmentId], references: [investmentId])
+  status            TransactionStatus @default(PENDING)
 }
 
 model Investment {
-  amount             BigInt
-  transaction_status String
-  createdAt          DateTime      @default(now())
-  investmentId       Int           @id @default(autoincrement())
-  userId             String
-  projectId          Int
-  project            Project       @relation(fields: [projectId], references: [projectId])
-  user               User          @relation(fields: [userId], references: [userId])
-  Transaction        Transaction[]
-
-  @@map("Investement")
+  amount       BigInt
+  createdAt    DateTime      @default(now())
+  investmentId String        @id @default(uuid())
+  userId       String
+  projectId    String
+  project      Project       @relation(fields: [projectId], references: [projectId])
+  user         User          @relation(fields: [userId], references: [userId])
+  Transaction  Transaction[]
 }
 
 model Wallet {
-  walletId     Int           @id @default(autoincrement())
+  walletId     String        @id @default(uuid())
   userId       String        @unique
   balance      BigInt        @default(0)
   createdAt    DateTime      @default(now())
@@ -116,4 +120,12 @@ enum TransactionType {
   RECHARGE
   SPEND
   WITHDRAWAL
+}
+
+enum TransactionStatus {
+  PENDING
+  APPROVED
+  VOIDED
+  DECLINED
+  ERROR
 }

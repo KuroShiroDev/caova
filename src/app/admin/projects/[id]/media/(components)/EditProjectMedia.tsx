@@ -6,7 +6,7 @@ import useGetProject from '@/hooks/project/useGetProject';
 
 const EditProjectMedia = () => {
   const params = useParams();
-  const { project, setProject } = useGetProject({ id: Number(params.id) });
+  const { project, setProject } = useGetProject({ id: params.id as string});
   return (
     <>
       <h2 className="title">Media | Proyecto ID #{params.id}</h2>

@@ -5,7 +5,7 @@ import { MaxWidthWrapper } from '@/components/ui/maxWidthWrapper/MaxWidthWrapper
 
 interface ProductPageProps {
   params: {
-    id: number;
+    id: string;
   };
 }
 

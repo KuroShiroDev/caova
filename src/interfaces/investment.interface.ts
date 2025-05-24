@@ -6,16 +6,15 @@ export interface GetAdminInvestments {
   createdAt: Date;
   investmentId: number;
   userId: string;
-  projectId: number;
+  projectId: string;
   user: User;
   project: Project;
 }
 
 export interface InvestmentWithUser {
   amount: bigint;
-  transaction_status: string;
   createdAt: Date;
-  investmentId: number;
-  projectId: number;
+  investmentId: string;
+  projectId: string;
   user: User;
 }

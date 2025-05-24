@@ -1,13 +1,15 @@
-"use client"
+'use client';
 
 import { currencyFormat, calculateProgressPercentage } from '@/lib/utils';
-import { Progress } from '@radix-ui/react-progress';
 import { MapPinIcon } from 'lucide-react';
 import React, { useState } from 'react';
 import { getStatusVariant, getPropertyTypeDisplay } from './lib/utils';
 import { Badge } from '../ui/badge';
 import { IProject } from '@/interfaces/project.interface';
 import Image from 'next/image';
+import { Button } from '../ui/button';
+import Link from 'next/link';
+import { Progress } from '../ui/progress';
 
 interface ProjectHeaderProps {
   projectData: IProject;
@@ -26,11 +28,19 @@ export const ProjectHeader = ({ projectData }: ProjectHeaderProps) => {
           </Badge>
         </div>
 
-        <div className="flex items-center text-muted-foreground mb-4">
-          <MapPinIcon className="mr-2 h-4 w-4" />
-          <span>
-            {projectData.address}, {projectData.city}, {projectData.department}, {projectData.country}
-          </span>
+        <div className="flex justify-between items-center text-muted-foreground mb-4">
+          <div className="flex">
+            <MapPinIcon className="mr-2 h-4 w-4" />
+            <span>
+              {projectData.address}, {projectData.city}, {projectData.department}, {projectData.country}
+            </span>
+          </div>
+
+          <Button size="lg" className="w-full font-bold text-xl md:w-auto">
+            <Link href={`/invest/${projectData.projectId}`} className="flex items-center gap-2">
+              Invertir
+            </Link>
+          </Button>
         </div>
 
         <p className="text-muted-foreground mb-4">{projectData.description}</p>
@@ -60,7 +70,7 @@ export const ProjectHeader = ({ projectData }: ProjectHeaderProps) => {
             <span className="font-semibold text-primary">
               {calculateProgressPercentage(
                 projectData.projectValueActual ?? BigInt(0),
-                BigInt(projectData.projectValueTotal ?? 0)
+                projectData.projectValueTotal ?? BigInt(0)
               )}
               %
             </span>
@@ -68,9 +78,9 @@ export const ProjectHeader = ({ projectData }: ProjectHeaderProps) => {
           <Progress
             value={calculateProgressPercentage(
               projectData.projectValueActual ?? BigInt(0),
-              BigInt(projectData.projectValueTotal ?? 0)
+              projectData.projectValueTotal ?? BigInt(0)
             )}
-            className="h-2"
+            className="h-2 w-full"
           />
         </div>
 
