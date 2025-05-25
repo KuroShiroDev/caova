@@ -4,6 +4,57 @@ import { auth } from '@clerk/nextjs/server';
 import { getWalletId } from './wallets';
 import { Transaction, TransactionStatus } from '@prisma/client';
 
+export const getTransactionsWithInvestment = async () => {
+  const { userId } = auth();
+
+  if (!userId) {
+    throw new Error('Unauthorized');
+  }
+
+  const wallet = await prisma.wallet.findUnique({
+    where: {
+      userId,
+    },
+  });
+
+  if (!wallet) {
+    throw new Error('Wallet not found');
+  }
+
+  const transactions = await prisma.transaction.findMany({
+    where: {
+      wallet,
+    },
+    include: {
+      investment: {
+        include: {
+          project: true,
+        },
+      },
+    },
+  });
+
+  return transactions.map((t) => ({
+    amount: t.amount,
+    createdAt: t.createdAt,
+    updatedAt: t.updatedAt,
+    transactionId: t.transactionId,
+    type: t.type,
+    walletId: t.walletId,
+    paymentMethodType: t.paymentMethodType,
+    investmentId: t.investmentId,
+    reference: t.reference,
+    externalId: t.externalId,
+    status: t.status,
+    investment: t.investment
+      ? {
+          investmentId: t.investment.investmentId,
+          projectName: t.investment.project?.title ?? undefined,
+        }
+      : null,
+  }));
+};
+
 export const getTransactionById = async (transactionId: string) => {
   const { userId } = auth();
 

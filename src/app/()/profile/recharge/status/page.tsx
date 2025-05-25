@@ -3,14 +3,14 @@
 import { useCallback } from 'react';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, CheckCircle, Clock, AlertTriangle, RefreshCw, Download, ArrowRight, XCircle, Ban } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Clock, AlertTriangle, RefreshCw, ArrowRight, XCircle, Ban } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Transaction, TransactionStatus } from '@prisma/client';
 import { MaxWidthWrapper } from '@/components/ui/maxWidthWrapper/MaxWidthWrapper';
 import { useSearchParams } from 'next/navigation';
-import { formatDate, formatDateTime } from '@/lib/utils';
+import { currencyFormat, formatDate, formatDateTime } from '@/lib/utils';
 import { TransactionLoadingSkeleton } from './components/TransactionLoadingSkeleton';
 
 // Enum de estados de transacción
@@ -21,6 +21,7 @@ export default function EstadoTransaccionPage() {
   const [status, setStatus] = useState<TransactionStatus>(TransactionStatus.PENDING);
   const [transactionData, setTransactionData] = useState<Transaction>();
   const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
   const checkStatus = useCallback(() => {
     setLoading(true);
@@ -31,7 +32,10 @@ export default function EstadoTransaccionPage() {
         setStatus(data.status);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        setLoading(false);
+        setNotFound(true);
+      });
   }, [externalId]);
 
   useEffect(() => {
@@ -173,6 +177,35 @@ export default function EstadoTransaccionPage() {
     return () => clearInterval(interval);
   }, [status, checkStatus]);
 
+  if (notFound) {
+    return (
+      <MaxWidthWrapper className="md:w-[600px] lg:w-[800px]">
+        <Card className="border-0 shadow-lg">
+          <CardHeader className="text-center rounded-t-lg border-b pb-6 bg-red-50">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
+              <AlertTriangle className="h-10 w-10 text-red-600" />
+            </div>
+            <CardTitle className="text-2xl text-red-800">Transacción no encontrada</CardTitle>
+            <CardDescription className="text-red-700">
+              No pudimos encontrar la transacción solicitada. Verifica el enlace o intenta nuevamente.
+            </CardDescription>
+          </CardHeader>
+          <CardFooter className="flex flex-col space-y-3 px-6 pb-6">
+            <Button className="w-full bg-blue-600 hover:bg-blue-700" asChild>
+              <Link href="/profile/recharge">
+                Intentar Nuevamente
+                <RefreshCw className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/profile">Volver al Perfil</Link>
+            </Button>
+          </CardFooter>
+        </Card>
+      </MaxWidthWrapper>
+    );
+  }
+
   if (loading || !transactionData) {
     return <TransactionLoadingSkeleton />;
   }
@@ -201,7 +234,7 @@ export default function EstadoTransaccionPage() {
           <div className="space-y-6">
             <div className="text-center">
               <p className="text-sm text-gray-500 mb-1">Monto de recarga</p>
-              <p className="text-3xl font-bold">COP {transactionData.amount}</p>
+              <p className="text-3xl font-bold">{currencyFormat(Number(transactionData.amount), 0, 0, "code")}</p>
             </div>
 
             <Tabs defaultValue="detalles" className="w-full">
@@ -359,18 +392,7 @@ export default function EstadoTransaccionPage() {
               </TabsContent>
             </Tabs>
 
-            {status === TransactionStatus.APPROVED && (
-              <div className="bg-green-50 rounded-lg p-4 flex justify-between items-center">
-                <div>
-                  <p className="text-sm text-green-700">Nuevo saldo disponible</p>
-                  <p className="text-xl font-bold text-green-800">COP 9.306.917.990</p>
-                </div>
-                <Button variant="outline" className="border-green-200 text-green-700 hover:bg-green-100 hover:text-green-800">
-                  <Download className="h-4 w-4 mr-2" />
-                  Comprobante
-                </Button>
-              </div>
-            )}
+          
 
             {status === TransactionStatus.PENDING && (
               <div className="bg-blue-50 rounded-lg p-4">
@@ -454,7 +476,7 @@ export default function EstadoTransaccionPage() {
             status === TransactionStatus.ERROR ||
             status === TransactionStatus.VOIDED) && (
             <Button className="w-full bg-blue-600 hover:bg-blue-700" asChild>
-              <Link href="/profile/recargar">
+              <Link href="/profile/recharge">
                 Intentar Nuevamente
                 <RefreshCw className="ml-2 h-4 w-4" />
               </Link>

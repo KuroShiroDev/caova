@@ -3,9 +3,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { navigationMenuProfile } from '../(data)/data';
 import { ProjectsInfoCard } from '../../../../components/projects/ProjectsInfoCard';
 import { getProjectsByUser } from '@/actions/projects';
+import { BalanceMovementsCard } from './BalanceMovementsCard';
+import { getTransactionsWithInvestment } from '@/actions/transactions';
+import { getUser } from '@/actions/auth';
 
-export const NavigationMenu  = async () => {
+export const NavigationMenu = async () => {
   const projects = await getProjectsByUser();
+
+  const transactions = await getTransactionsWithInvestment();
+
+  const user = await getUser();
+
+  console.log('transactions', transactions);
 
   return (
     <Card className="w-full shadow-lg ">
@@ -24,7 +33,10 @@ export const NavigationMenu  = async () => {
         </CardHeader>
         <CardContent>
           <TabsContent value="projects" className="w-full">
-            <ProjectsInfoCard basePath='profile' projects={projects} />
+            <ProjectsInfoCard basePath="profile" projects={projects} />
+          </TabsContent>
+          <TabsContent value="balance" className="w-full">
+            <BalanceMovementsCard transactions={transactions} currentBalance={user?.Wallet?.balance ?? 0} />
           </TabsContent>
         </CardContent>
       </Tabs>

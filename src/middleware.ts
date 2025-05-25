@@ -1,6 +1,14 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 
-const isPublicRoute = createRouteMatcher(['/', '/projects', '/api/transactions/create-recharge', '/api/wompi-webhook']);
+const isPublicRoute = createRouteMatcher([
+  '/',
+  '/projects',
+  '/api/transactions/create-recharge',
+  '/api/wompi-webhook',
+  '/api/edgestore(.*)',
+  '/blog(.*)',
+  '/about(.*)',
+]);
 
 export default clerkMiddleware((auth, request) => {
   if (!isPublicRoute(request)) {
@@ -9,6 +17,5 @@ export default clerkMiddleware((auth, request) => {
 });
 
 export const config = {
-  //TODO: preguntar a luis por que añadio api/edgestore
-  matcher: ['/((?!.+\\.[\\w]+$|_next|api/edgestore).*)', '/', '/(api|trpc)(.*)'],
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
 };
