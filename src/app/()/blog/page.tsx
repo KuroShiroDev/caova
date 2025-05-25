@@ -1,8 +1,14 @@
+import { BlogCategories } from './(components)/BlogCategories';
+import { BlogHero } from './(components)/BlogHero';
+import { BlogLayout } from './(components)/BlogLayout';
 
 export default function BlogPage() {
   return (
-    <div>
-      <h1>Hello Page</h1>
-    </div>
+    <BlogLayout>
+      <div className="space-y-12">
+        <BlogHero />
+        <BlogCategories />
+      </div>
+    </BlogLayout>
   );
 }

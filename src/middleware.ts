@@ -6,7 +6,8 @@ const isPublicRoute = createRouteMatcher([
   '/api/transactions/create-recharge',
   '/api/wompi-webhook',
   '/api/edgestore(.*)',
-  '/blog'
+  '/blog(.*)',
+  '/about(.*)',
 ]);
 
 export default clerkMiddleware((auth, request) => {
