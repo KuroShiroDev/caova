@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { BookOpen, HelpCircle, CreditCard, Building2, Shield, TrendingUp } from 'lucide-react';
+import { BookOpen, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 
 export const BlogCategories = () => {

@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronRight, BookOpen, HelpCircle, Home, TrendingUp } from 'lucide-react';
+import { BookOpen, HelpCircle, Home } from 'lucide-react';
 import Link from 'next/link';
 
 interface BlogSidebarProps {

@@ -1,8 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Search, HelpCircle, MessageCircle, Phone, Mail } from 'lucide-react';
+import { HelpCircle, MessageCircle, Phone, Mail } from 'lucide-react';
 
 export const FAQContent = () => {
   const faqCategories = [
