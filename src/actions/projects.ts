@@ -22,6 +22,16 @@ export const createProject = async (values: ProjectFormValues): Promise<Project>
   return project;
 };
 
+export const getPrincipalProjects = async (): Promise<Project[]> => {
+  const projects = await prisma.project.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+    take: 6,
+  });
+  return projects;
+};
+
 export const getProjects = async ({
   page = 1,
   limit = 10,
