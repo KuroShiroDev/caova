@@ -14,8 +14,6 @@ export const NavigationMenu = async () => {
 
   const user = await getUser();
 
-  console.log('transactions', transactions);
-
   return (
     <Card className="w-full shadow-lg ">
       <Tabs defaultValue="projects" className="w-full">

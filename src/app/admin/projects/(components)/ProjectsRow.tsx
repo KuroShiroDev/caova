@@ -8,7 +8,6 @@ interface Props {
   project: ProjectWithInvestmentsAndUsers;
 }
 const ProjectsRow = ({ project }: Props) => {
-  console.log(project);
   return (
     <TableRow>
       <TableCell className="font-medium">{project.projectId}</TableCell>

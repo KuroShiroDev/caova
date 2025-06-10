@@ -34,7 +34,6 @@ export const updateWalletBalance = async (
   status: TransactionStatus,
   paymentMethodType?: string
 ): Promise<void> => {
-  console.log(paymentMethodType, externalId);
   const transaction = await updateRechargeTransaction(externalId, reference, status, paymentMethodType);
   if (!transaction) {
     throw new Error('Transaction not found');
