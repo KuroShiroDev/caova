@@ -24,14 +24,10 @@ export async function POST(req: NextRequest) {
   concat += secret;
 
   const checksum = crypto.createHash('sha256').update(concat).digest('hex');
-  console.log('Checksum:', checksum);
-  console.log('Received Checksum:', body.signature?.checksum);
 
   if (checksum !== body.signature?.checksum) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
-
-  console.log(body.data);
 
   if (body.event === 'transaction.updated') {
     await updateWalletBalance(

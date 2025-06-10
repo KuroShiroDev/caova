@@ -2,7 +2,7 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 
 const isPublicRoute = createRouteMatcher([
   '/',
-  '/projects',
+  '/projects(.*)',
   '/api/transactions/create-recharge',
   '/api/wompi-webhook',
   '/api/edgestore(.*)',

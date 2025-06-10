@@ -25,7 +25,6 @@ export default function ConfirmRechargeWalletPage() {
     });
   }, [monto, reference]);
 
-  
   useEffect(() => {
     const existingScript = document.querySelector('script[src="https://checkout.wompi.co/widget.js"]');
     if (existingScript) {
@@ -48,7 +47,6 @@ export default function ConfirmRechargeWalletPage() {
   }, [monto, reference, currency]);
 
   useEffect(() => {
-    console.log('signature', signature, isWompiLoaded, 'isWompiLoaded', wompiContainerRef.current);
     if (!isWompiLoaded || !signature || !wompiContainerRef.current) return;
 
     wompiContainerRef.current.innerHTML = '';
